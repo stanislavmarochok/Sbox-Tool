@@ -1,0 +1,2 @@
+,SBoxes,time_elapsed,generation_method,max_item,max_item_count,zero_items_count,is_bijective,nonlinearity
+0,"[3, 14, 0, 5, 1, 8, 15, 13, 2, 12, 4, 7, 9, 6, 10, 11]",0.0010132789611816406,DDTConstruction,6,2,157,True,2
