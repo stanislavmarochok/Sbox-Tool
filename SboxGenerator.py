@@ -73,4 +73,5 @@ class SboxGenerator:
     def ddt_generation(self, size_of_sbox):
         # TODO: finish the method
         from PartiallySmoothDifferenceTable import PartiallySmoothDifferenceTable as gen
-        return gen.generateSbox(size_of_sbox)
+        generator = gen()
+        return generator.generateSbox(size_of_sbox)

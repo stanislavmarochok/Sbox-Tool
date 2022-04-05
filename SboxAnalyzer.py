@@ -141,6 +141,7 @@ class SboxAnalyzer:
         analyzeResult['SBoxes'] = []
         for sbox in sboxes:
             _sbox = sbox.sbox
+            print(_sbox)
             sboxStr = SboxAnalyzer.getSboxString(_sbox)
             analyzeResult['SBoxes'].append(sboxStr)
 
