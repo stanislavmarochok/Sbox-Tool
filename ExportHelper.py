@@ -10,13 +10,11 @@ class ExportHelper:
         self.filename = filename
 
     @staticmethod
-    def exportObjectToDataframe(obj, filename):
+    def exportDataToCsv(obj, filename):
         if obj is None:
             return False
 
         df = pd.DataFrame(obj)
 
         df.to_csv(filename)
-
         return True
-

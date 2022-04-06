@@ -34,21 +34,22 @@ class DifferenceDistributionTableAnalyzer(ICriterionAnalyzer):
         # calculate DDT
         ddt = sageSbox.difference_distribution_table()
 
-        sboxLength = 2 ** (len(sageSbox))
+        full_size_of_sbox = 2 ** (len(sageSbox))
 
         # retrieving items
-        ddt_items = self.countItemsInDdt(ddt, sboxLength)
+        ddt_items = self.countItemsInDdt(ddt, full_size_of_sbox)
+        self.printDdt(ddt)
 
         # retrieving stats from DDT items (items count)
         result = self.getStatsFromDdtItems(ddt_items)
         return result
 
-    def countItemsInDdt(self, ddt, sboxLength):
+    def countItemsInDdt(self, ddt, full_size_of_sbox):
         # create an array to store number of each item in the DDT
-        items = [0] * (sboxLength + 1)
-        for row in ddt:
-            for item in row:
-                items[item] += 1
+        items = [0] * (full_size_of_sbox + 1)
+        for row_index in range(1, full_size_of_sbox):
+            for column_index in range(1, full_size_of_sbox):
+                items[ddt[row_index][column_index]] += 1
 
         return items
 
@@ -70,6 +71,13 @@ class DifferenceDistributionTableAnalyzer(ICriterionAnalyzer):
         result['zero_items_count'] = zero_items_count
 
         return result
+
+    def printDdt(self, ddt):
+        print('Difference distribution table:')
+        for row in ddt:
+            for item in row:
+                print('{: >3}'.format(item), end='')
+            print()
 
 # implementation of the Bijection analyzer
 """
@@ -179,3 +187,15 @@ class SboxAnalyzer:
         for i in sbox:
             sboxStr.append(str(i))
         return '[' + ', '.join(sboxStr) + ']'
+
+    @staticmethod
+    def analyzeStatsOfSboxes(analyzed_sboxes):
+        result = {}
+
+        print(analyzed_sboxes)
+        max_items = analyzed_sboxes.get('max_item')
+        print(max_items)
+        # calculate count of max items
+        max_items_count = {}
+
+        return result

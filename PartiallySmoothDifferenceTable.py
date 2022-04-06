@@ -1,5 +1,7 @@
 #!/usr/bin/sage --python
 
+import random as random_for_shuffle_numbers
+
 from sage.all import *
 from sage.crypto.sbox import SBox
 from SboxAnalyzer import DifferenceDistributionTableAnalyzer
@@ -24,8 +26,9 @@ class PartiallySmoothDifferenceTable:
 
         print()
         print('-----------------------------------------------------')
-        print('Generating partially smooth difference table')
-        print(f'Size of SBox: {full_size_of_sbox}')
+        print('Adding a new item to partial SBox')
+        print(partial_sbox)
+        print(f'Requested size of SBox: {full_size_of_sbox}')
 
         # if we have the whole SBox filled and it satisfies the conditions
         if len(partial_sbox) == full_size_of_sbox:
@@ -39,6 +42,8 @@ class PartiallySmoothDifferenceTable:
         available_numbers = [i for i in range(len(all_numbers)) if all_numbers[i] == 1]
         print('Available numbers:')
         print(available_numbers)
+
+        random_for_shuffle_numbers.shuffle(available_numbers)
 
         # go through all available numbers
         for i in available_numbers:
@@ -80,7 +85,7 @@ class PartiallySmoothDifferenceTable:
         print(f'Max item: {max_item}')
 
         # checking conditions
-        if max_item > 2:
+        if max_item > 4:
             return False
 
         return True
@@ -90,6 +95,7 @@ class PartiallySmoothDifferenceTable:
         ddt = [[0] * partial_sbox_length for _ in range(partial_sbox_length)]
 
         sbox_pairs = self.getPairsForPartialSbox(partial_sbox, full_size_of_sbox)
+        print(sbox_pairs)
         for (i, x) in sbox_pairs:
             if not isinstance(x, int):
                 continue
