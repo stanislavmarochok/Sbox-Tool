@@ -24,6 +24,9 @@ class SboxResult:
         self.meta_data[_meta_data_item] = _value
 
 class SboxGenerator:
+    def __init__(self):
+        self.logger = Logger(log_files=['sbox_generator', 'log'], disabled_output_console=False, disabled_output_files=False)
+
     def generateSboxes(self, number_of_sboxes, size_of_sboxes, generation_method : SboxGeneratorMethods):
         generated_sboxes_result = []
         for index_of_sbox in range(number_of_sboxes):
@@ -33,7 +36,7 @@ class SboxGenerator:
         return generated_sboxes_result
 
     def generateSbox(self, size_of_sbox, generation_method):
-        logger = Logger.getLogger(verbose=True)
+        logger = self.logger
 
         method = self.random_generation
         if generation_method == SboxGeneratorMethods.RandomGeneration:
@@ -46,7 +49,7 @@ class SboxGenerator:
             method = self.ddt_generation
 
         if method is None:
-            logger.log('Error: Generation method not recognized!')
+            logger.logInfo('Error: Generation method not recognized!')
             return False
 
         start_time = time.time()

@@ -26,9 +26,10 @@ Analyze S-Box for the following properties:
 class DifferenceDistributionTableAnalyzer(ICriterionAnalyzer):
     def __init__(self):
         self.name = 'Difference Distribution Table Analyzer'
+        self.logger = Logger(log_files=['sbox_analyzer', 'log'])
 
     def analyze(self, sageSbox):
-        logger = Logger.getLogger(verbose=True)
+        logger = self.logger
         # logger.log(f'Difference Distribution Table analysis of SBox: {sbox}')
 
         # calculate DDT
@@ -38,7 +39,7 @@ class DifferenceDistributionTableAnalyzer(ICriterionAnalyzer):
 
         # retrieving items
         ddt_items = self.countItemsInDdt(ddt, full_size_of_sbox)
-        self.printDdt(ddt)
+        # self.printDdt(ddt)
 
         # retrieving stats from DDT items (items count)
         result = self.getStatsFromDdtItems(ddt_items)
@@ -73,11 +74,12 @@ class DifferenceDistributionTableAnalyzer(ICriterionAnalyzer):
         return result
 
     def printDdt(self, ddt):
-        print('Difference distribution table:')
+        logger = self.logger
+        logger.logInfo('Difference distribution table:')
         for row in ddt:
             for item in row:
-                print('{: >3}'.format(item), end='')
-            print()
+                logger.logInfo('{: >3}'.format(item), end='')
+            logger.logInfo()
 
 # implementation of the Bijection analyzer
 """
@@ -130,17 +132,18 @@ class AnalyzeCriteria:
         # TODO: add more analyzing criteria here
 
     def printCriteria(self):
-        logger = Logger.getLogger(verbose=True)
-        logger.log('Analyzing criteria:')
+        logger = Logger(log_files=['sbox_analyzer', 'log'])
+        logger.logInfo('Analyzing criteria:')
         for index, criterion in enumerate(self.analyzeCriteria):
-            logger.log(f'{index}. {criterion.name}')
-
-        logger.log('')
+            logger.logInfo(f'{index}. {criterion.name}')
+        logger.logInfo('')
 
 
 class SboxAnalyzer:
-    @staticmethod
-    def analyzeSboxesWithCriteria(sboxes : SboxResult, criteria : AnalyzeCriteria):
+    def __init__(self):
+        self.logger = Logger(log_files=['sbox_analyzer', 'log'])
+
+    def analyzeSboxesWithCriteria(self, sboxes : SboxResult, criteria : AnalyzeCriteria):
         analyzeResult = {}
 
         criteria.printCriteria()
@@ -149,52 +152,49 @@ class SboxAnalyzer:
         analyzeResult['SBoxes'] = []
         for sbox in sboxes:
             _sbox = sbox.sbox
-            print(_sbox)
-            sboxStr = SboxAnalyzer.getSboxString(_sbox)
+            sboxStr = self.getSboxString(_sbox)
             analyzeResult['SBoxes'].append(sboxStr)
 
             if sbox.meta_data is not None:
                 for _meta_data_key, _meta_data_value in sbox.meta_data.items():
-                    SboxAnalyzer.addItemToDict(analyzeResult, _meta_data_key, _meta_data_value)
+                    self.addItemToDict(analyzeResult, _meta_data_key, _meta_data_value)
 
         for criterion in criteria.analyzeCriteria:
             for sbox in sboxes:
                 sageSbox = SBox(_sbox)
                 # TODO: check if analyzing DifferenceDistributionTable is correct (probably NOT)
-                sboxCriterionAnalyzeResult = SboxAnalyzer.analyzeCriterion(sageSbox, criterion)
+                sboxCriterionAnalyzeResult = self.analyzeCriterion(sageSbox, criterion)
                 if type(sboxCriterionAnalyzeResult) is dict:
                     for result_key, result_value in sboxCriterionAnalyzeResult.items():
-                        SboxAnalyzer.addItemToDict(analyzeResult, result_key, result_value)
+                        self.addItemToDict(analyzeResult, result_key, result_value)
                 else:
                     # this must not happen, but to be sure
-                    SboxAnalyzer.addItemToDict(analyzeResult, criterion.name, sboxCriterionAnalyzeResult)
+                    self.addItemToDict(analyzeResult, criterion.name, sboxCriterionAnalyzeResult)
 
         return analyzeResult
 
-    @staticmethod
-    def addItemToDict(_dict, name, item):
+    def addItemToDict(self, _dict, name, item):
         if _dict.get(name) is None:
             _dict[name] = []
         _dict[name].append(item)
 
-    @staticmethod
-    def analyzeCriterion(sageSbox, criterion : ICriterionAnalyzer):
+    def analyzeCriterion(self, sageSbox, criterion : ICriterionAnalyzer):
         return criterion.analyze(sageSbox)
 
-    @staticmethod
-    def getSboxString(sbox):
+    def getSboxString(self, sbox):
         sboxStr = []
         for i in sbox:
             sboxStr.append(str(i))
         return '[' + ', '.join(sboxStr) + ']'
 
-    @staticmethod
-    def analyzeStatsOfSboxes(analyzed_sboxes):
+    def analyzeStatsOfSboxes(self, analyzed_sboxes):
         result = {}
 
-        print(analyzed_sboxes)
+        logger = self.logger
+
+        logger.logInfo(analyzed_sboxes)
         max_items = analyzed_sboxes.get('max_item')
-        print(max_items)
+        logger.logInfo(max_items)
         # calculate count of max items
         max_items_count = {}
 

@@ -1,6 +1,7 @@
 #!/usr/bin/sage -python
 
 import pandas as pd
+import os
 
 class ExportHelper:
     def __init__(self):
@@ -16,5 +17,8 @@ class ExportHelper:
 
         df = pd.DataFrame(obj)
 
-        df.to_csv(filename)
+        if not os.path.exists('output'):
+            os.mkdir('output')
+
+        df.to_csv(f'output/{filename}')
         return True

@@ -6,11 +6,12 @@ import argparse
 from SboxGenerator import SboxGeneratorMethods
 from SboxAnalyzer import AnalyzeCriteria
 from Logger import Logger
+from RuntimeGlobalSettings import RuntimeGlobalSettings
 
-
-class Options:
+class CommonOptions:
     def __init__(self):
-        self
+        self.disabled_output_console = False
+        self.disabled_output_files = False
 
 class GenerationOptions:
     def __init__(self):
@@ -28,6 +29,7 @@ class OptionsParser:
     def __init__(self):
         self.version = 0.1
         self.verbose = False
+        self.logger = Logger(log_files=['options_parser', 'log'])
 
         # sbox options
         self.generation_options = GenerationOptions()
@@ -37,6 +39,9 @@ class OptionsParser:
 
         # export results options
         self.export_options = ExportOptions()
+
+        # common options
+        self.common_options = CommonOptions()
 
     """
     Parse the arguments from the input
@@ -77,31 +82,41 @@ class OptionsParser:
         parser.add_argument('--version', action='version',
             help='Version of Sbox Tool.', version='%(prog)s ' + str(self.version))
 
-        parser.add_argument('--verbose', action='store_true',
-            help='Print all the processes on to console.')
+        parser.add_argument('--dC', action='store_true',
+            help='Disable printing logs on the screen (console output).')
 
+        parser.add_argument('--dF', action='store_true',
+            help='Disable printing logs to files.')
         return parser
 
     def parse_args(self, args):
-        logger = Logger.getLogger(verbose=True)
-        logger.log('...Parsing options...')
+        logger = self.logger
+        # disabled output on screen if there was specified the option
+        if args.dC:
+            logger.disabled_output_console = args.dC
+        if args.dF:
+            logger.disabled_output_files = args.dF
+
+        logger.logInfo('...Parsing options...')
+
+        global_settings = RuntimeGlobalSettings.getInstance()
 
         if args.random or args.evolute or args.affine or args.ddt:
-            logger.log('SBox source: generation')
-            logger.log('Generation method: ', end='')
+            logger.logInfo('SBox source: generation')
+            logger.logInfo('Generation method: ')
             sbox = None
             if args.random:
                 method = SboxGeneratorMethods.RandomGeneration
-                logger.log('Random generation')
+                logger.logInfo('Random generation')
             elif args.evolute:
                 method = SboxGeneratorMethods.EvolutionaryGeneration
-                logger.log('Evolutionary generation')
+                logger.logInfo('Evolutionary generation')
             elif args.affine:
                 method = SboxGeneratorMethods.MathematicalConstruction
-                logger.log('Mathematical construction')
+                logger.logInfo('Mathematical construction')
             elif args.ddt:
                 method = SboxGeneratorMethods.DDTConstruction
-                logger.log('Randomized algorithm to construct S-boxes with required spectrum based on Difference Distribution Table properties')
+                logger.logInfo('Randomized algorithm to construct S-boxes with required spectrum based on Difference Distribution Table properties')
 
         if method and (args.n is None or args.s is None):
             if args.n is None:
@@ -110,7 +125,9 @@ class OptionsParser:
                 s = 4
 
         if method == None and args.sbox == None:
-            parser.error('Select a method for S-Boxes generation or provide some SBox for analyzing.')
+            error_msg = 'Select a method for S-Boxes generation or provide some SBox for analyzing.'
+            logger.logError(error_msg)
+            parser.error(error_msg)
 
         if args.n:
             n = int(args.n)
@@ -124,17 +141,29 @@ class OptionsParser:
         if args.export_csv:
             export_csv = args.export_csv
 
-        if args.verbose:
-            verbose = args.verbose
-        else:
-            verbose = False
+        disabled_output_console = False
+        if args.dC:
+            disabled_output_console = args.dC
 
-        logger.log(f'Number of SBoxes to generate: {n}')
-        logger.log(f'Size of SBoxes (power of 2): {s}')
+        disabled_output_files = False
+        if args.dF:
+            disabled_output_files = args.dF
 
-        logger.log(f'Verbose: {verbose}')
+        logger.logInfo(f'Number of SBoxes to generate: {n}')
+        global_settings.number_of_sboxes = n
 
-        logger.log('...End of parsing options...\n')
+        logger.logInfo(f'Size of SBoxes (power of 2): {s}')
+        global_settings.power_size_of_sbox = s
+
+        logger.logInfo(f'Disabled output console: {disabled_output_console}')
+        global_settings.disabled_output_console = disabled_output_console
+        logger.disabled_output_console = global_settings.disabled_output_console
+
+        logger.logInfo(f'Disabled output files: {disabled_output_files}')
+        global_settings.disabled_output_files = disabled_output_files
+        logger.disabled_output_files = global_settings.disabled_output_files
+
+        logger.logInfo('...End of parsing options...\n')
 
         # -------------------------- save parameters
 
