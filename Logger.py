@@ -21,6 +21,8 @@ class Logger():
             print(msg, end=(end if end is not None else '\n'))
 
         if self.disabled_output_files != True:
+            if not os.path.exists('output'):
+                os.mkdir('output')
             if not os.path.exists('output/logs'):
                 os.mkdir('output/logs')
             for log_file in self.log_files:
