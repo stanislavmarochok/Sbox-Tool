@@ -3,6 +3,8 @@
 import pandas as pd
 import os
 
+from RuntimeGlobalSettings import RuntimeGlobalSettings
+
 class ExportHelper:
     def __init__(self):
         self.filename = 'test'
@@ -17,8 +19,11 @@ class ExportHelper:
 
         df = pd.DataFrame(obj)
 
-        if not os.path.exists('output'):
-            os.mkdir('output')
+        settings = RuntimeGlobalSettings.getInstance()
+        output_folder = settings.output_folder
 
-        df.to_csv(f'output/{filename}')
+        if not os.path.exists(f'{output_folder}'):
+            os.mkdir(f'{output_folder}')
+
+        df.to_csv(f'{output_folder}/{filename}')
         return True

@@ -61,9 +61,9 @@ class OptionsParser:
 
 
         sbox_options_group = parser.add_argument_group('S-box options')
-        sbox_options_group.add_argument('-n', type=int, action='store', nargs='?', const=1,
+        sbox_options_group.add_argument('-n', type=int, action='store', default=1,
             help='Number of SBoxes to be generated. Default n = 1.')
-        sbox_options_group.add_argument('-s', type=int, action='store', nargs='?', const=16,
+        sbox_options_group.add_argument('-s', type=int, action='store', default=4,
             help='Size of SBox (power of 2). Default s = 4.')
         sbox_options_group.add_argument('-b', '--sbox', type=str, action='store',
             help='SBox (use \'\').')
@@ -87,6 +87,10 @@ class OptionsParser:
 
         parser.add_argument('--dF', action='store_true',
             help='Disable printing logs to files.')
+
+        parser.add_argument('--output-folder', metavar='', dest='output_folder', default='output',
+                help='Define custom output folder.')
+
         return parser
 
     def parse_args(self, args):
@@ -97,9 +101,10 @@ class OptionsParser:
         if args.dF:
             logger.disabled_output_files = args.dF
 
-        logger.logInfo('...Parsing options...')
-
         global_settings = RuntimeGlobalSettings.getInstance()
+        global_settings.output_folder = args.output_folder
+
+        logger.logInfo('...Parsing options...')
 
         if args.random or args.evolute or args.affine or args.ddt:
             logger.logInfo('SBox source: generation')
@@ -118,12 +123,15 @@ class OptionsParser:
                 method = SboxGeneratorMethods.DDTConstruction
                 logger.logInfo('Randomized algorithm to construct S-boxes with required spectrum based on Difference Distribution Table properties')
 
+# TODO: validate default values and delete this block later
+"""
         if method and (args.n is None or args.s is None):
             if args.n is None:
                 n = 1
             if args.s is None:
                 s = 4
-
+"""
+#
         if method == None and args.sbox == None:
             error_msg = 'Select a method for S-Boxes generation or provide some SBox for analyzing.'
             logger.logError(error_msg)
@@ -162,6 +170,9 @@ class OptionsParser:
         logger.logInfo(f'Disabled output files: {disabled_output_files}')
         global_settings.disabled_output_files = disabled_output_files
         logger.disabled_output_files = global_settings.disabled_output_files
+
+        logger.logInfo(f'Output folder: {args.output_folder}')
+        global_settings.output_folder = args.output_folder
 
         logger.logInfo('...End of parsing options...\n')
 

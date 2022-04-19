@@ -17,5 +17,6 @@ class RuntimeGlobalSettings:
             self.disabled_output_files = False
             self.number_of_sboxes = 1
             self.power_size_of_sbox = 4
+            self.output_folder = 'output'
 
             RuntimeGlobalSettings._instance = self

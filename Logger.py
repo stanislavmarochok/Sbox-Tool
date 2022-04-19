@@ -20,13 +20,14 @@ class Logger():
         if self.disabled_output_console != True:
             print(msg, end=(end if end is not None else '\n'))
 
+        output_folder = self.settings.output_folder
         if self.disabled_output_files != True:
-            if not os.path.exists('output'):
-                os.mkdir('output')
-            if not os.path.exists('output/logs'):
-                os.mkdir('output/logs')
+            if not os.path.exists(output_folder):
+                os.mkdir(output_folder)
+            if not os.path.exists(f'{output_folder}/logs'):
+                os.mkdir(f'{output_folder}/logs')
             for log_file in self.log_files:
-                with open(f'output/logs/log_{log_file}.txt', 'a') as log_file:
+                with open(f'{output_folder}/logs/log_{log_file}.txt', 'a') as log_file:
                     log_file.write(msg + (end if end is not None else '\n'))
 
     # private method, must be called in standart scenario from functions:
