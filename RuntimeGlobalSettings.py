@@ -18,5 +18,6 @@ class RuntimeGlobalSettings:
             self.number_of_sboxes = 1
             self.power_size_of_sbox = 4
             self.output_folder = 'output'
+            self.disabled_export_csv = False
 
             RuntimeGlobalSettings._instance = self

@@ -74,8 +74,8 @@ class OptionsParser:
         # sbox_analyzing_group.add_argument('')
 
         sbox_export_group = parser.add_argument_group('export results options')
-        sbox_export_group.add_argument('--export_csv', action='store_true',
-            help='Export generated SBoxes to CSV')
+        sbox_export_group.add_argument('--dEC', action='store_true', default=False,
+            help='Disable export of generated SBoxes to CSV')
         # sbox_export_group.add_argument('--export_csv', action='store_true'. nargs='?', const=0,
         #     help='Export generated SBoxes to CSV')
 
@@ -123,15 +123,6 @@ class OptionsParser:
                 method = SboxGeneratorMethods.DDTConstruction
                 logger.logInfo('Randomized algorithm to construct S-boxes with required spectrum based on Difference Distribution Table properties')
 
-# TODO: validate default values and delete this block later
-"""
-        if method and (args.n is None or args.s is None):
-            if args.n is None:
-                n = 1
-            if args.s is None:
-                s = 4
-"""
-#
         if method == None and args.sbox == None:
             error_msg = 'Select a method for S-Boxes generation or provide some SBox for analyzing.'
             logger.logError(error_msg)
@@ -146,8 +137,7 @@ class OptionsParser:
         if args.sbox:
             sbox = args.sbox
 
-        if args.export_csv:
-            export_csv = args.export_csv
+        global_settings.disabled_export_csv = args.dEC
 
         disabled_output_console = False
         if args.dC:
@@ -174,7 +164,8 @@ class OptionsParser:
         logger.logInfo(f'Output folder: {args.output_folder}')
         global_settings.output_folder = args.output_folder
 
-        logger.logInfo('...End of parsing options...\n')
+        logger.logInfo('...End of parsing options...')
+        logger.logInfo()
 
         # -------------------------- save parameters
 

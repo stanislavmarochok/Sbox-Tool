@@ -38,21 +38,24 @@ class DifferenceDistributionTableAnalyzer(ICriterionAnalyzer):
         full_size_of_sbox = 2 ** (len(sageSbox))
 
         # retrieving items
-        ddt_items = self.countItemsInDdt(ddt, full_size_of_sbox)
+        ddt_items = self.countItemsInDdtWithZeroRowColumn(ddt, full_size_of_sbox)
         # self.printDdt(ddt)
 
         # retrieving stats from DDT items (items count)
         result = self.getStatsFromDdtItems(ddt_items)
         return result
 
-    def countItemsInDdt(self, ddt, full_size_of_sbox):
+    def countItemsInDdt(self, ddt, full_size_of_sbox, start_from_row_column = 1):
         # create an array to store number of each item in the DDT
         items = [0] * (full_size_of_sbox + 1)
-        for row_index in range(1, full_size_of_sbox):
-            for column_index in range(1, full_size_of_sbox):
+        for row_index in range(start_from_row_column, full_size_of_sbox):
+            for column_index in range(start_from_row_column, full_size_of_sbox):
                 items[ddt[row_index][column_index]] += 1
 
         return items
+
+    def countItemsInDdtWithZeroRowColumn(self, ddt, full_size_of_sbox):
+        return self.countItemsInDdt(ddt, full_size_of_sbox, 1)
 
     def getStatsFromDdtItems(self, ddt_items):
         max_item = 0
@@ -60,7 +63,7 @@ class DifferenceDistributionTableAnalyzer(ICriterionAnalyzer):
         zero_items_count = ddt_items[0]
 
         # going backwards from the end, excluding the last item (we don't count it)
-        for i in range(len(ddt_items) - 2, -1, -1):
+        for i in range(len(ddt_items) - 1, -1, -1):
             if ddt_items[i] != 0:
                 max_item = i
                 max_item_count = ddt_items[i]
@@ -133,6 +136,7 @@ class AnalyzeCriteria:
 
     def printCriteria(self):
         logger = Logger(log_files=['sbox_analyzer', 'log'])
+        logger.logInfo('')
         logger.logInfo('Analyzing criteria:')
         for index, criterion in enumerate(self.analyzeCriteria):
             logger.logInfo(f'{index}. {criterion.name}')
@@ -161,6 +165,7 @@ class SboxAnalyzer:
 
         for criterion in criteria.analyzeCriteria:
             for sbox in sboxes:
+                _sbox = sbox.sbox
                 sageSbox = SBox(_sbox)
                 # TODO: check if analyzing DifferenceDistributionTable is correct (probably NOT)
                 sboxCriterionAnalyzeResult = self.analyzeCriterion(sageSbox, criterion)
@@ -190,12 +195,20 @@ class SboxAnalyzer:
     def analyzeStatsOfSboxes(self, analyzed_sboxes):
         result = {}
 
-        logger = self.logger
-
-        logger.logInfo(analyzed_sboxes)
         max_items = analyzed_sboxes.get('max_item')
-        logger.logInfo(max_items)
-        # calculate count of max items
+        result['max_items'] = self.analyzeMaxItems(max_items)
+
+        return result
+
+    def analyzeMaxItems(self, max_items):
         max_items_count = {}
+        for index, item in enumerate(max_items):
+            if max_items_count.get(item) is None:
+                max_items_count[item] = 0
+            max_items_count[item] += 1
+        result = {'sboxes_count': [], 'max_item': []}
+        for key, value in max_items_count.items():
+            result['max_item'].append(key)
+            result['sboxes_count'].append(value)
 
         return result

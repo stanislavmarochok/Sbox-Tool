@@ -1,1 +1,0 @@
-[INFO] [19/04/2022 16:45:16] {'SBoxes': ['[0, 1]'], 'time_elapsed': [0.0014772415161132812], 'generation_method': ['DDTConstruction'], 'max_item': [0], 'max_item_count': [0], 'zero_items_count': [0], 'is_bijective': [True], 'nonlinearity': [0]}

@@ -38,8 +38,9 @@ def run_tool():
 
     # TODO: add columns with analyze criteria 
 
-    export_result = ExportHelper.exportDataToCsv(analyzed_sboxes, 'analyzed_sboxes.csv')
-    export_stats = ExportHelper.exportDataToCsv(sboxes_stats, 'sbox_stats.csv')
+    export = ExportHelper()
+    export_result = export.exportDataToCsv(analyzed_sboxes, 'analyzed_sboxes.csv')
+    export_stats = export.exportSboxesStats(sboxes_stats)
 
 
 if __name__ == '__main__':
