@@ -1,4 +1,4 @@
-#!/usr/bin/sage -python
+#!/usr/bin/python
 
 import sys
 import argparse

@@ -1,10 +1,8 @@
-#!/usr/bin/sage -python
+#!/usr/bin/python
 
 import enum
 import pandas as pd
 
-from sage.all import *
-from sage.crypto.sbox import SBox
 from Logger import Logger
 from SboxGenerator import SboxResult
 
@@ -28,14 +26,14 @@ class DifferenceDistributionTableAnalyzer(ICriterionAnalyzer):
         self.name = 'Difference Distribution Table Analyzer'
         self.logger = Logger(log_files=['sbox_analyzer', 'log'])
 
-    def analyze(self, sageSbox):
+    def analyze(self, sbox):
         logger = self.logger
         # logger.log(f'Difference Distribution Table analysis of SBox: {sbox}')
 
         # calculate DDT
-        ddt = sageSbox.difference_distribution_table()
+        ddt = self.difference_distribution_table(sbox)
 
-        full_size_of_sbox = 2 ** (len(sageSbox))
+        full_size_of_sbox = len(sbox)
 
         # retrieving items
         ddt_items = self.countItemsInDdtWithZeroRowColumn(ddt, full_size_of_sbox)
@@ -75,6 +73,23 @@ class DifferenceDistributionTableAnalyzer(ICriterionAnalyzer):
         result['zero_items_count'] = zero_items_count
 
         return result
+    
+    def difference_distribution_table(self, sbox):
+        sbox_length = len(sbox)
+        ddt = [[0] * sbox_length for _ in range(sbox_length)]
+
+        for i, x in enumerate(sbox):
+            if not isinstance(x, int):
+                continue
+            for j, y in enumerate(sbox):
+                xor_in = i ^ j
+                if not isinstance(y, int):
+                    continue
+                xor_out = x ^ y
+                ddt[xor_in][xor_out] += 1
+
+        return ddt
+
 
     def printDdt(self, ddt):
         logger = self.logger
@@ -93,13 +108,13 @@ class BijectionAnalyzer(ICriterionAnalyzer):
     def __init__(self):
         self.name = 'Bijection Analyzer'
 
-    def analyze(self, sageSbox):
+    def analyze(self, sbox):
         is_bijective = True
-        sboxLength = 2 ** len(sageSbox)
+        sboxLength = len(sbox)
         values = [0] * (sboxLength + 1)
         for i in range(sboxLength):
-            values[sageSbox[i]] += 1
-            if values[sageSbox[i]] > 1:
+            values[sbox[i]] += 1
+            if values[sbox[i]] > 1:
                 is_bijective = False
                 break
 
@@ -116,13 +131,17 @@ class NonlinearityAnalyzer(ICriterionAnalyzer):
     def __init__(self):
         self.name = 'Nonlinearity Analyzer'
 
-    def analyze(self, sageSbox):
-        nonlinearity = sageSbox.nonlinearity()
+    def analyze(self, _sbox):
+        nonlinearity = self.isNonlinearSbox(_sbox)
 
         result = {}
         result['nonlinearity'] = nonlinearity
 
         return result
+
+    def isNonlinearSbox(self, _sbox):
+        # TODO: finish this method
+        return True
 
 
 class AnalyzeCriteria:
@@ -166,9 +185,9 @@ class SboxAnalyzer:
         for criterion in criteria.analyzeCriteria:
             for sbox in sboxes:
                 _sbox = sbox.sbox
-                sageSbox = SBox(_sbox)
+                # sageSbox = SBox(_sbox)
                 # TODO: check if analyzing DifferenceDistributionTable is correct (probably NOT)
-                sboxCriterionAnalyzeResult = self.analyzeCriterion(sageSbox, criterion)
+                sboxCriterionAnalyzeResult = self.analyzeCriterion(_sbox, criterion)
                 if type(sboxCriterionAnalyzeResult) is dict:
                     for result_key, result_value in sboxCriterionAnalyzeResult.items():
                         self.addItemToDict(analyzeResult, result_key, result_value)

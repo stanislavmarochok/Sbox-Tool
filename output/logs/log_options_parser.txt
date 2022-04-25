@@ -42,3 +42,44 @@
 [INFO] [24/04/2022 16:24:44] Output folder: output
 [INFO] [24/04/2022 16:24:44] ...End of parsing options...
 [INFO] [24/04/2022 16:24:44] 
+[INFO] [25/04/2022 15:42:48] ...Parsing options...
+[INFO] [25/04/2022 16:03:27] ...Parsing options...
+[INFO] [25/04/2022 16:03:27] Number of SBoxes to generate: 1
+[INFO] [25/04/2022 16:03:27] Size of SBoxes (power of 2): 4
+[INFO] [25/04/2022 16:03:27] Disabled output console: False
+[INFO] [25/04/2022 16:03:27] Disabled output files: False
+[INFO] [25/04/2022 16:03:27] Output folder: output
+[INFO] [25/04/2022 16:03:27] ...End of parsing options...
+[INFO] [25/04/2022 16:03:27] 
+[INFO] [25/04/2022 16:03:33] ...Parsing options...
+[INFO] [25/04/2022 16:03:33] Number of SBoxes to generate: 1
+[INFO] [25/04/2022 16:03:33] Size of SBoxes (power of 2): 4
+[INFO] [25/04/2022 16:03:33] Disabled output console: False
+[INFO] [25/04/2022 16:03:33] Disabled output files: False
+[INFO] [25/04/2022 16:03:33] Output folder: output
+[INFO] [25/04/2022 16:03:33] ...End of parsing options...
+[INFO] [25/04/2022 16:03:33] 
+[INFO] [25/04/2022 16:04:09] ...Parsing options...
+[INFO] [25/04/2022 16:04:09] Number of SBoxes to generate: 1
+[INFO] [25/04/2022 16:04:09] Size of SBoxes (power of 2): 4
+[INFO] [25/04/2022 16:04:09] Disabled output console: False
+[INFO] [25/04/2022 16:04:09] Disabled output files: False
+[INFO] [25/04/2022 16:04:09] Output folder: output
+[INFO] [25/04/2022 16:04:09] ...End of parsing options...
+[INFO] [25/04/2022 16:04:09] 
+[INFO] [25/04/2022 16:04:15] ...Parsing options...
+[INFO] [25/04/2022 16:04:15] Number of SBoxes to generate: 1
+[INFO] [25/04/2022 16:04:15] Size of SBoxes (power of 2): 4
+[INFO] [25/04/2022 16:04:15] Disabled output console: False
+[INFO] [25/04/2022 16:04:15] Disabled output files: False
+[INFO] [25/04/2022 16:04:15] Output folder: output
+[INFO] [25/04/2022 16:04:15] ...End of parsing options...
+[INFO] [25/04/2022 16:04:15] 
+[INFO] [25/04/2022 16:07:21] ...Parsing options...
+[INFO] [25/04/2022 16:07:21] Number of SBoxes to generate: 1
+[INFO] [25/04/2022 16:07:21] Size of SBoxes (power of 2): 4
+[INFO] [25/04/2022 16:07:21] Disabled output console: False
+[INFO] [25/04/2022 16:07:21] Disabled output files: False
+[INFO] [25/04/2022 16:07:21] Output folder: output
+[INFO] [25/04/2022 16:07:21] ...End of parsing options...
+[INFO] [25/04/2022 16:07:21] 

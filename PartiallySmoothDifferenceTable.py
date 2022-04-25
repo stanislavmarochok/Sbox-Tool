@@ -1,9 +1,7 @@
-#!/usr/bin/sage --python
+#!/usr/bin/python
 
 import random as random_for_shuffle_numbers
 
-from sage.all import *
-from sage.crypto.sbox import SBox
 from SboxAnalyzer import DifferenceDistributionTableAnalyzer
 from Logger import Logger
 from RuntimeGlobalSettings import RuntimeGlobalSettings

@@ -1,4 +1,4 @@
-#!/usr/bin/sage -python
+#!/usr/bin/python
 
 import argparse
 
@@ -125,6 +125,8 @@ class OptionsParser:
             elif args.ddt:
                 method = SboxGeneratorMethods.DDTConstruction
                 logger.logInfo('Randomized algorithm to construct S-boxes with required spectrum based on Difference Distribution Table properties')
+        else:
+            method = SboxGeneratorMethods.RandomGeneration
 
         if method == None and args.sbox == None:
             error_msg = 'Select a method for S-Boxes generation or provide some SBox for analyzing.'
