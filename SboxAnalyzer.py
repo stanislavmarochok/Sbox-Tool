@@ -195,20 +195,25 @@ class SboxAnalyzer:
     def analyzeStatsOfSboxes(self, analyzed_sboxes):
         result = {}
 
-        max_items = analyzed_sboxes.get('max_item')
-        result['max_items'] = self.analyzeMaxItems(max_items)
+        result['max_items'] = self.getSboxesStatsForCriteria(analyzed_sboxes, 'max_item')
+        result['max_items_count'] = self.getSboxesStatsForCriteria(analyzed_sboxes, 'max_item_count')
+
 
         return result
 
-    def analyzeMaxItems(self, max_items):
-        max_items_count = {}
-        for index, item in enumerate(max_items):
-            if max_items_count.get(item) is None:
-                max_items_count[item] = 0
-            max_items_count[item] += 1
-        result = {'sboxes_count': [], 'max_item': []}
-        for key, value in max_items_count.items():
-            result['max_item'].append(key)
+    def getSboxesStatsForCriteria(self, analyzed_sboxes, criteriaName):
+        items_count = {}
+        items = analyzed_sboxes.get(criteriaName)
+        if items == None:
+            self.logger.logError(f'{criteriaName} of analyzed SBoxes is None!')
+
+        for index, item in enumerate(items):
+            if items_count.get(item) is None:
+                items_count[item] = 0
+            items_count[item] += 1
+        result = {'sboxes_count': [], f'{criteriaName}': []}
+        for key, value in items_count.items():
+            result[criteriaName].append(key)
             result['sboxes_count'].append(value)
 
         return result

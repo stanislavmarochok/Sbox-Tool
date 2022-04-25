@@ -6,11 +6,13 @@ from sage.all import *
 from sage.crypto.sbox import SBox
 from SboxAnalyzer import DifferenceDistributionTableAnalyzer
 from Logger import Logger
+from RuntimeGlobalSettings import RuntimeGlobalSettings
 
 class PartiallySmoothDifferenceTable:
     def __init__(self):
         # log - name of file with logs
         self.logger = Logger(log_files=['partially_smooth_difference_table', 'log'])
+        self.global_settings = RuntimeGlobalSettings.getInstance()
 
     def generateSbox(self, full_size_of_sbox):
         partial_sbox = []
@@ -96,7 +98,7 @@ class PartiallySmoothDifferenceTable:
         logger.logInfo(f'Max item: {max_item}')
 
         # checking conditions
-        if max_item > 4:
+        if max_item > self.global_settings.ddt_max_item:
             return False
 
         return True

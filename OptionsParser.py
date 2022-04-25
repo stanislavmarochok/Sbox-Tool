@@ -71,13 +71,16 @@ class OptionsParser:
         sbox_analyzing_group = parser.add_argument_group('S-box analyzing options.')
         sbox_analyzing_group.add_argument('--ddt', action='store_true',
             help='Analyze difference distribution table of SBoxes')
-        # sbox_analyzing_group.add_argument('')
+
+        sbox_analyzing_group.add_argument('--ddt-limit', type=int, action='store', dest='ddt_limit', default=None,
+            help='Limit for DDT generation method')
+
+        sbox_analyzing_group.add_argument('--ddt-max-item', type=int, action='store', dest='ddt_max_item', default=4,
+            help='Parameter of `satisfies_conditions` function in DDT generation method, defines custom max_item in a difference distribution table of a partial SBox to satisfy conditions')
 
         sbox_export_group = parser.add_argument_group('export results options')
         sbox_export_group.add_argument('--dEC', action='store_true', default=False,
             help='Disable export of generated SBoxes to CSV')
-        # sbox_export_group.add_argument('--export_csv', action='store_true'. nargs='?', const=0,
-        #     help='Export generated SBoxes to CSV')
 
         parser.add_argument('--version', action='version',
             help='Version of Sbox Tool.', version='%(prog)s ' + str(self.version))
@@ -138,6 +141,12 @@ class OptionsParser:
             sbox = args.sbox
 
         global_settings.disabled_export_csv = args.dEC
+
+        if args.ddt_limit is None:
+            args.ddt_limit = n
+        global_settings.ddt_limit = args.ddt_limit
+
+        global_settings.ddt_max_item = args.ddt_max_item
 
         disabled_output_console = False
         if args.dC:

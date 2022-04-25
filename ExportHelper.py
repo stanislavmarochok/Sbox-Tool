@@ -30,6 +30,9 @@ class ExportHelper:
             settings = RuntimeGlobalSettings.getInstance()
             output_folder = settings.output_folder
 
+            if not os.path.exists(f'{output_folder}'):
+                os.mkdir(f'{output_folder}')
+
             if not os.path.exists(f'{output_folder}/sbox_stats'):
                 os.mkdir(f'{output_folder}/sbox_stats')
 

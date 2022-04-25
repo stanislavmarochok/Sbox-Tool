@@ -1,0 +1,44 @@
+[INFO] [20/04/2022 05:32:10] ...Parsing options...
+[INFO] [20/04/2022 05:32:10] SBox source: generation
+[INFO] [20/04/2022 05:32:10] Generation method: 
+[INFO] [20/04/2022 05:32:10] Randomized algorithm to construct S-boxes with required spectrum based on Difference Distribution Table properties
+[INFO] [20/04/2022 05:32:10] Number of SBoxes to generate: 4
+[INFO] [20/04/2022 05:32:10] Size of SBoxes (power of 2): 5
+[INFO] [20/04/2022 05:32:10] Disabled output console: False
+[INFO] [20/04/2022 05:32:10] Disabled output files: False
+[INFO] [20/04/2022 05:32:10] Output folder: output
+[INFO] [20/04/2022 05:32:10] ...End of parsing options...
+[INFO] [20/04/2022 05:32:10] 
+[INFO] [20/04/2022 05:32:30] ...Parsing options...
+[INFO] [20/04/2022 05:32:30] SBox source: generation
+[INFO] [20/04/2022 05:32:30] Generation method: 
+[INFO] [20/04/2022 05:32:30] Randomized algorithm to construct S-boxes with required spectrum based on Difference Distribution Table properties
+[INFO] [20/04/2022 05:32:30] Number of SBoxes to generate: 4
+[INFO] [20/04/2022 05:32:30] Size of SBoxes (power of 2): 5
+[INFO] [20/04/2022 05:32:30] Disabled output console: False
+[INFO] [20/04/2022 05:32:30] Disabled output files: False
+[INFO] [20/04/2022 05:32:30] Output folder: output
+[INFO] [20/04/2022 05:32:30] ...End of parsing options...
+[INFO] [20/04/2022 05:32:30] 
+[INFO] [20/04/2022 05:32:41] ...Parsing options...
+[INFO] [20/04/2022 05:32:41] SBox source: generation
+[INFO] [20/04/2022 05:32:41] Generation method: 
+[INFO] [20/04/2022 05:32:41] Randomized algorithm to construct S-boxes with required spectrum based on Difference Distribution Table properties
+[INFO] [20/04/2022 05:32:41] Number of SBoxes to generate: 4
+[INFO] [20/04/2022 05:32:41] Size of SBoxes (power of 2): 5
+[INFO] [20/04/2022 05:32:41] Disabled output console: False
+[INFO] [20/04/2022 05:32:41] Disabled output files: False
+[INFO] [20/04/2022 05:32:41] Output folder: output
+[INFO] [20/04/2022 05:32:41] ...End of parsing options...
+[INFO] [20/04/2022 05:32:41] 
+[INFO] [24/04/2022 16:24:44] ...Parsing options...
+[INFO] [24/04/2022 16:24:44] SBox source: generation
+[INFO] [24/04/2022 16:24:44] Generation method: 
+[INFO] [24/04/2022 16:24:44] Randomized algorithm to construct S-boxes with required spectrum based on Difference Distribution Table properties
+[INFO] [24/04/2022 16:24:44] Number of SBoxes to generate: 4
+[INFO] [24/04/2022 16:24:44] Size of SBoxes (power of 2): 5
+[INFO] [24/04/2022 16:24:44] Disabled output console: False
+[INFO] [24/04/2022 16:24:44] Disabled output files: False
+[INFO] [24/04/2022 16:24:44] Output folder: output
+[INFO] [24/04/2022 16:24:44] ...End of parsing options...
+[INFO] [24/04/2022 16:24:44] 
