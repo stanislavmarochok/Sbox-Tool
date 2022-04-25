@@ -127,7 +127,9 @@ class OptionsParser:
                 logger.logInfo('Randomized algorithm to construct S-boxes with required spectrum based on Difference Distribution Table properties')
         else:
             method = SboxGeneratorMethods.RandomGeneration
-
+        
+        global_settings.generation_method = method
+        
         if method == None and args.sbox == None:
             error_msg = 'Select a method for S-Boxes generation or provide some SBox for analyzing.'
             logger.logError(error_msg)

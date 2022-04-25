@@ -6,6 +6,7 @@ import pandas as pd
 from Logger import Logger
 from SboxGenerator import SboxResult
 
+
 # interface with methods
 """
 An interface with contains common methods for analyzers
@@ -13,6 +14,7 @@ An interface with contains common methods for analyzers
 class ICriterionAnalyzer:
     def analyze(self, sbox):
         print(f'Analyzing SBox: {sbox}')
+
 
 # implementation of the Difference Distribution Table analyzer
 """
@@ -79,12 +81,8 @@ class DifferenceDistributionTableAnalyzer(ICriterionAnalyzer):
         ddt = [[0] * sbox_length for _ in range(sbox_length)]
 
         for i, x in enumerate(sbox):
-            if not isinstance(x, int):
-                continue
             for j, y in enumerate(sbox):
                 xor_in = i ^ j
-                if not isinstance(y, int):
-                    continue
                 xor_out = x ^ y
                 ddt[xor_in][xor_out] += 1
 
@@ -98,6 +96,7 @@ class DifferenceDistributionTableAnalyzer(ICriterionAnalyzer):
             for item in row:
                 logger.logInfo('{: >3}'.format(item), end='')
             logger.logInfo()
+
 
 # implementation of the Bijection analyzer
 """
@@ -122,6 +121,7 @@ class BijectionAnalyzer(ICriterionAnalyzer):
         result['is_bijective'] = is_bijective
 
         return result
+
 
 # implementation of the Nonlinearity analyzer
 """
@@ -215,8 +215,6 @@ class SboxAnalyzer:
         result = {}
 
         result['max_items'] = self.getSboxesStatsForCriteria(analyzed_sboxes, 'max_item')
-        result['max_items_count'] = self.getSboxesStatsForCriteria(analyzed_sboxes, 'max_item_count')
-
 
         return result
 
@@ -230,7 +228,7 @@ class SboxAnalyzer:
             if items_count.get(item) is None:
                 items_count[item] = 0
             items_count[item] += 1
-        result = {'sboxes_count': [], f'{criteriaName}': []}
+        result = {f'{criteriaName}': [], 'sboxes_count': []}
         for key, value in items_count.items():
             result[criteriaName].append(key)
             result['sboxes_count'].append(value)
