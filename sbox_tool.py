@@ -33,13 +33,10 @@ def run_tool():
     analyzed_sboxes = sbox_analyzer.analyzeSboxesWithCriteria(generated_sboxes_result, options.analyze_options)
     sboxes_stats = sbox_analyzer.analyzeStatsOfSboxes(analyzed_sboxes)
 
-    logger = Logger(log_files=['main_func', 'log'])
-    logger.logInfo(analyzed_sboxes)
-
     # TODO: add columns with analyze criteria 
 
     export = ExportHelper()
-    export_result = export.exportDataToCsv(analyzed_sboxes)
+    export_result = export.exportAnalyzedSboxes(analyzed_sboxes)
     export_stats = export.exportSboxesStats(sboxes_stats)
 
 

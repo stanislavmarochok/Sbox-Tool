@@ -15,16 +15,16 @@ class RuntimeGlobalSettings:
         if RuntimeGlobalSettings._instance != None:
             raise Exception('RuntimeGlobalSettings is a singleton!')
         else:
-            self.number_of_sboxes = 1
-            self.power_size_of_sbox = 4
-            self.output_folder = 'output'
+            self.number_of_sboxes = None
+            self.power_size_of_sbox = None
+            self.output_folder = None
             self.generation_method = SboxGeneratorMethods.RandomGeneration
+            self.generation_timeout = None
 
             self.disabled_export_csv = False
             self.disabled_output_console = False
             self.disabled_output_files = False
 
-            self.ddt_limit = None
-            self.ddt_max_item = 4
+            self.prescribed_ddt_max_item = None
 
             RuntimeGlobalSettings._instance = self

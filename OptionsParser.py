@@ -49,50 +49,28 @@ class OptionsParser:
     def get_parser(self):
         parser = argparse.ArgumentParser(description='SBox tool', prog='SBox Generating & Analyzing Tool')
 
-        generation_methods_group = parser.add_argument_group('methods of generation')
-        generation_methods_group.add_argument('-r', '--random', action='store_true',
-            help='Use random method for S-box generation.')
-        generation_methods_group.add_argument('-e', '--evolute', action='store_true',
-            help='Use evolutionary method for S-box generation.')
-        generation_methods_group.add_argument('-a', '--affine', action='store_true',
-            help='Use mathematical construction for S-box generation.')
-        generation_methods_group.add_argument('-ddt', '--partially-smooth', action='store_true',
-            help='Use Partially smooth difference table randomized algorithm for S-box generation.')
+        generation_methods_group = parser.add_argument_group('Options of methods of generation')
+        generation_methods_group.add_argument('--random-generation', action='store_true', dest='random_generation', help='Use random method for S-box generation.')
+        generation_methods_group.add_argument('--prescribed-ddt', action='store_true', dest='prescribed_ddt', help='Use prescribed difference distribution table algorithm for S-box generation.')
+        generation_methods_group.add_argument('--generation-timeout', type=int, action='store', dest='generation_timeout', default=20, help='Timeout for generation of 1 SBox')
 
-
-        sbox_options_group = parser.add_argument_group('S-box options')
-        sbox_options_group.add_argument('-n', type=int, action='store', default=1,
-            help='Number of SBoxes to be generated. Default n = 1.')
-        sbox_options_group.add_argument('-s', type=int, action='store', default=4,
-            help='Size of SBox (power of 2). Default s = 4.')
-        sbox_options_group.add_argument('-b', '--sbox', type=str, action='store',
-            help='SBox (use \'\').')
+        sbox_options_group = parser.add_argument_group('Options of SBoxes generation')
+        sbox_options_group.add_argument('--sboxes-count', type=int, action='store', dest='n', default=1, help='Number of SBoxes to be generated. Default n = 1.')
+        sbox_options_group.add_argument('--sboxes-size', type=int, action='store', dest='s', default=4, help='Size of SBox (power of 2). Default s = 4.')
 
         sbox_analyzing_group = parser.add_argument_group('S-box analyzing options.')
-        sbox_analyzing_group.add_argument('--ddt', action='store_true',
-            help='Analyze difference distribution table of SBoxes')
+        sbox_analyzing_group.add_argument('--prescribed-ddt-max-item', type=int, action='store', dest='prescribed_ddt_max_item', default=4,
+            help='Parameter of `satisfies_conditions` function in `Prescribed DDT` generation method, defines custom max_item in a difference distribution table of a partial SBox to satisfy conditions')
 
-        sbox_analyzing_group.add_argument('--ddt-limit', type=int, action='store', dest='ddt_limit', default=None,
-            help='Limit for DDT generation method')
+        sbox_export_group = parser.add_argument_group('Options of export of the result')
+        sbox_export_group.add_argument('--dEC', action='store_true', default=False, help='Disable export of generated SBoxes to CSV')
 
-        sbox_analyzing_group.add_argument('--ddt-max-item', type=int, action='store', dest='ddt_max_item', default=4,
-            help='Parameter of `satisfies_conditions` function in DDT generation method, defines custom max_item in a difference distribution table of a partial SBox to satisfy conditions')
+        output_options_group = parser.add_argument_group('Options of output')
+        output_options_group.add_argument('--dC', action='store_true', help='Disable printing logs on the screen (console output).')
+        output_options_group.add_argument('--dF', action='store_true', help='Disable printing logs to files.')
+        output_options_group.add_argument('-oF', metavar='', dest='output_folder', default='output', help='Folder where outputs will be saved.')
 
-        sbox_export_group = parser.add_argument_group('export results options')
-        sbox_export_group.add_argument('--dEC', action='store_true', default=False,
-            help='Disable export of generated SBoxes to CSV')
-
-        parser.add_argument('--version', action='version',
-            help='Version of Sbox Tool.', version='%(prog)s ' + str(self.version))
-
-        parser.add_argument('--dC', action='store_true',
-            help='Disable printing logs on the screen (console output).')
-
-        parser.add_argument('--dF', action='store_true',
-            help='Disable printing logs to files.')
-
-        parser.add_argument('--output-folder', metavar='', dest='output_folder', default='output',
-                help='Define custom output folder.')
+        parser.add_argument('--version', action='version', help='Version of Sbox Tool.', version='%(prog)s ' + str(self.version))
 
         return parser
 
@@ -109,28 +87,22 @@ class OptionsParser:
 
         logger.logInfo('...Parsing options...')
 
-        if args.random or args.evolute or args.affine or args.ddt:
-            logger.logInfo('SBox source: generation')
-            logger.logInfo('Generation method: ')
-            sbox = None
-            if args.random:
-                method = SboxGeneratorMethods.RandomGeneration
-                logger.logInfo('Random generation')
-            elif args.evolute:
-                method = SboxGeneratorMethods.EvolutionaryGeneration
-                logger.logInfo('Evolutionary generation')
-            elif args.affine:
-                method = SboxGeneratorMethods.MathematicalConstruction
-                logger.logInfo('Mathematical construction')
-            elif args.ddt:
-                method = SboxGeneratorMethods.DDTConstruction
-                logger.logInfo('Randomized algorithm to construct S-boxes with required spectrum based on Difference Distribution Table properties')
-        else:
+        # method = SboxGeneratorMethods.RandomGeneration
+
+        logger.logInfo('SBox source: generation')
+        logger.logInfo('Generation method: ')
+
+        if args.random_generation:
             method = SboxGeneratorMethods.RandomGeneration
+            logger.logInfo('Random generation')
+        elif args.prescribed_ddt:
+            method = SboxGeneratorMethods.PrescribedDDT
+            logger.logInfo('Randomized algorithm to construct S-boxes with prescribed difference distribution table')
         
         global_settings.generation_method = method
+        global_settings.generation_timeout = args.generation_timeout
         
-        if method == None and args.sbox == None:
+        if method == None:
             error_msg = 'Select a method for S-Boxes generation or provide some SBox for analyzing.'
             logger.logError(error_msg)
             parser.error(error_msg)
@@ -141,16 +113,9 @@ class OptionsParser:
         if args.s:
             s = int(args.s)
 
-        if args.sbox:
-            sbox = args.sbox
-
         global_settings.disabled_export_csv = args.dEC
 
-        if args.ddt_limit is None:
-            args.ddt_limit = n
-        global_settings.ddt_limit = args.ddt_limit
-
-        global_settings.ddt_max_item = args.ddt_max_item
+        global_settings.prescribed_ddt_max_item = args.prescribed_ddt_max_item
 
         disabled_output_console = False
         if args.dC:

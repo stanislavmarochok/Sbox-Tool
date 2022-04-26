@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import random as random_for_shuffle_numbers
+import time
 
 from SboxAnalyzer import DifferenceDistributionTableAnalyzer
 from Logger import Logger
@@ -11,23 +12,31 @@ class PartiallySmoothDifferenceTable:
         # log - name of file with logs
         self.logger = Logger(log_files=['partially_smooth_difference_table', 'log'])
         self.global_settings = RuntimeGlobalSettings.getInstance()
+        self.generation_started = False
 
     def generateSbox(self, full_size_of_sbox):
         partial_sbox = []
-        limit = 100
-        counter = 0
 
-        while counter < limit:
-            new_sbox = self.addItemToSbox(partial_sbox, full_size_of_sbox)
-            if new_sbox is not False:
-                self.logger.logInfo(new_sbox)
-                return new_sbox
-            counter += 1
-
+        new_sbox = self.addItemToSbox(partial_sbox, full_size_of_sbox)
+        if new_sbox == False:
+            self.logger.logError('Some error occured, see logs.')
+            return False
+        if new_sbox == -1:
+            self.logger.logError('Timeout exception thrown during SBox generation.')
+            return -1
+        
+        self.logger.logInfo(new_sbox)
         return new_sbox
 
     def addItemToSbox(self, partial_sbox, full_size_of_sbox):
         partial_sbox_pairs = self.getPairsForPartialSbox(partial_sbox, full_size_of_sbox)
+        if self.generation_started is False:
+            self.generation_started = True
+            self.generation_start_time = time.time()
+
+        if self.global_settings.generation_timeout is not None and self.generation_started is True and (time.time() - self.generation_start_time) > self.global_settings.generation_timeout:
+            # -1 = timeout exception
+            return -1
 
         logger = self.logger
 
@@ -96,7 +105,7 @@ class PartiallySmoothDifferenceTable:
         logger.logInfo(f'Max item: {max_item}')
 
         # checking conditions
-        if max_item > self.global_settings.ddt_max_item:
+        if max_item > self.global_settings.prescribed_ddt_max_item:
             return False
 
         return True

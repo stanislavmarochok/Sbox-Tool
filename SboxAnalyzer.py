@@ -213,7 +213,7 @@ class SboxAnalyzer:
 
     def analyzeStatsOfSboxes(self, analyzed_sboxes):
         result = {}
-
+        print(analyzed_sboxes)
         result['max_items'] = self.getSboxesStatsForCriteria(analyzed_sboxes, 'max_item')
 
         return result
@@ -223,6 +223,7 @@ class SboxAnalyzer:
         items = analyzed_sboxes.get(criteriaName)
         if items == None:
             self.logger.logError(f'{criteriaName} of analyzed SBoxes is None!')
+            return {}
 
         for index, item in enumerate(items):
             if items_count.get(item) is None:

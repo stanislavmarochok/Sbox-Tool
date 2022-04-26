@@ -10,12 +10,16 @@ class SboxGeneratorMethods(enum.Enum):
     RandomGeneration = 1,
     EvolutionaryGeneration = 2,
     MathematicalConstruction = 3.
-    DDTConstruction = 4
+    PrescribedDDT = 4
 
 class SboxResult:
     def __init__(self, sbox):
         self.sbox = sbox
         self.meta_data = {}
+        self.error = None
+
+        if not isinstance(self.sbox, list):
+            self.error = True
 
     def addMetaData(self, _meta_data_item, _value):
         if self.meta_data is None:
@@ -31,7 +35,8 @@ class SboxGenerator:
         generated_sboxes_result = []
         for index_of_sbox in range(number_of_sboxes):
             generated_sbox_result = self.generateSbox(2 ** size_of_sboxes, generation_method)
-            generated_sboxes_result.append(generated_sbox_result)
+            if generated_sbox_result.error != True:
+                generated_sboxes_result.append(generated_sbox_result)
 
         return generated_sboxes_result
 
@@ -45,7 +50,7 @@ class SboxGenerator:
             method = self.volutionary_generation
         elif generation_method == SboxGeneratorMethods.MathematicalConstruction:
             method = self.mathematical_generation
-        elif generation_method == SboxGeneratorMethods.DDTConstruction:
+        elif generation_method == SboxGeneratorMethods.PrescribedDDT:
             method = self.ddt_generation
 
         if method is None:
