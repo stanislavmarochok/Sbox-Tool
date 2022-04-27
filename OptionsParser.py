@@ -52,7 +52,7 @@ class OptionsParser:
         generation_methods_group = parser.add_argument_group('Options of methods of generation')
         generation_methods_group.add_argument('--random-generation', action='store_true', dest='random_generation', help='Use random method for S-box generation.')
         generation_methods_group.add_argument('--prescribed-ddt', action='store_true', dest='prescribed_ddt', help='Use prescribed difference distribution table algorithm for S-box generation.')
-        generation_methods_group.add_argument('--generation-timeout', type=int, action='store', dest='generation_timeout', default=20, help='Timeout for generation of 1 SBox')
+        generation_methods_group.add_argument('--generation-timeout', type=int, action='store', dest='generation_timeout', default=None, help='Timeout for generation of 1 SBox')
 
         sbox_options_group = parser.add_argument_group('Options of SBoxes generation')
         sbox_options_group.add_argument('--sboxes-count', type=int, action='store', dest='n', default=1, help='Number of SBoxes to be generated. Default n = 1.')
@@ -61,6 +61,8 @@ class OptionsParser:
         sbox_analyzing_group = parser.add_argument_group('S-box analyzing options.')
         sbox_analyzing_group.add_argument('--prescribed-ddt-max-item', type=int, action='store', dest='prescribed_ddt_max_item', default=4,
             help='Parameter of `satisfies_conditions` function in `Prescribed DDT` generation method, defines custom max_item in a difference distribution table of a partial SBox to satisfy conditions')
+        sbox_analyzing_group.add_argument('--analyze-ddt', action='store_true', default=False, dest='analyze_ddt', help='Enable analyzing the difference distribution table of SBox (SBoxes)')
+        sbox_analyzing_group.add_argument('--analyze-bijection', action='store_true', default=False, dest='analyze_bijection', help='Enable analyzing the bijection property of SBox (SBoxes)')
 
         sbox_export_group = parser.add_argument_group('Options of export of the result')
         sbox_export_group.add_argument('--dEC', action='store_true', default=False, help='Disable export of generated SBoxes to CSV')
@@ -124,6 +126,13 @@ class OptionsParser:
         disabled_output_files = False
         if args.dF:
             disabled_output_files = args.dF
+
+        if args.analyze_ddt == True:
+            self.analyze_options.addAnalyzeCriterion('difference_distribution_table')
+            global_settings.analyzeCriteria['difference_distribution_table'] = args.analyze_ddt
+        if args.analyze_bijection == True:
+            self.analyze_options.addAnalyzeCriterion('bijection')
+            global_settings.analyzeCriteria['bijection'] = args.analyze_bijection
 
         logger.logInfo(f'Number of SBoxes to generate: {n}')
         global_settings.number_of_sboxes = n

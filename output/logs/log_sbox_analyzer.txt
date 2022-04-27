@@ -1,6 +1,12 @@
-[INFO] [26/04/2022 17:49:41] 
-[INFO] [26/04/2022 17:49:41] Analyzing criteria:
-[INFO] [26/04/2022 17:49:41] 0. Difference Distribution Table Analyzer
-[INFO] [26/04/2022 17:49:41] 1. Bijection Analyzer
-[INFO] [26/04/2022 17:49:41] 2. Nonlinearity Analyzer
-[INFO] [26/04/2022 17:49:41] 
+[INFO] [27/04/2022 05:39:35] 
+[INFO] [27/04/2022 05:39:35] Analyzing criteria:
+[INFO] [27/04/2022 05:39:35] 0. Difference Distribution Table Analyzer
+[INFO] [27/04/2022 05:39:35] 
+[INFO] [27/04/2022 05:40:25] 
+[INFO] [27/04/2022 05:40:25] Analyzing criteria:
+[INFO] [27/04/2022 05:40:25] 0. Difference Distribution Table Analyzer
+[INFO] [27/04/2022 05:40:25] 
+[INFO] [27/04/2022 05:40:38] 
+[INFO] [27/04/2022 05:40:38] Analyzing criteria:
+[INFO] [27/04/2022 05:40:38] 0. Difference Distribution Table Analyzer
+[INFO] [27/04/2022 05:40:38] 

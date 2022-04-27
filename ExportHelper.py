@@ -10,6 +10,7 @@ class ExportHelper:
         pd.set_option('display.max_column', 10)
         pass
 
+
     def exportDataToCsv(self, obj, filename):
         df = pd.DataFrame(obj)
         df.to_csv(f'{filename}.csv')
@@ -18,6 +19,7 @@ class ExportHelper:
 
     def exportAnalyzedSboxes(self, obj, filename = None):
         if obj is None:
+            print('There is nothing to export.')
             return False
 
         settings = RuntimeGlobalSettings.getInstance()
@@ -56,5 +58,5 @@ class ExportHelper:
 
     def getFilename(self):
         settings = RuntimeGlobalSettings.getInstance()
-        return f'{settings.generation_method.name}_n{settings.number_of_sboxes}_s{settings.power_size_of_sbox}'
+        return f'{settings.generation_method.name}_n{settings.number_of_sboxes}_s{settings.power_size_of_sbox}_prescribedDdMaxItem{settings.prescribed_ddt_max_item}'
 

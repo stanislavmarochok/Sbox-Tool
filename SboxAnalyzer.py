@@ -5,6 +5,7 @@ import pandas as pd
 
 from Logger import Logger
 from SboxGenerator import SboxResult
+from RuntimeGlobalSettings import RuntimeGlobalSettings
 
 
 # interface with methods
@@ -146,12 +147,18 @@ class NonlinearityAnalyzer(ICriterionAnalyzer):
 
 class AnalyzeCriteria:
     def __init__(self):
+        self.settings = RuntimeGlobalSettings.getInstance() 
         self.analyzeCriteria = []
-        self.analyzeCriteria.append(DifferenceDistributionTableAnalyzer())
-        self.analyzeCriteria.append(BijectionAnalyzer())
-        self.analyzeCriteria.append(NonlinearityAnalyzer())
 
-        # TODO: add more analyzing criteria here
+
+    def addAnalyzeCriterion(self, criterionName):
+        if criterionName == 'difference_distribution_table':
+            self.analyzeCriteria.append(DifferenceDistributionTableAnalyzer())
+        elif criterionName == 'bijection':
+            self.analyzeCriteria.append(BijectionAnalyzer())
+        elif criterionName == 'nonlinearity':
+            self.analyzeCriteria.append(NonlinearityAnalyzer())
+
 
     def printCriteria(self):
         logger = Logger(log_files=['sbox_analyzer', 'log'])
@@ -164,6 +171,7 @@ class AnalyzeCriteria:
 
 class SboxAnalyzer:
     def __init__(self):
+        self.settings = RuntimeGlobalSettings.getInstance()
         self.logger = Logger(log_files=['sbox_analyzer', 'log'])
 
     def analyzeSboxesWithCriteria(self, sboxes : SboxResult, criteria : AnalyzeCriteria):
@@ -213,9 +221,10 @@ class SboxAnalyzer:
 
     def analyzeStatsOfSboxes(self, analyzed_sboxes):
         result = {}
-        print(analyzed_sboxes)
-        result['max_items'] = self.getSboxesStatsForCriteria(analyzed_sboxes, 'max_item')
-
+    
+        if self.settings.analyzeCriteria.get('difference_distribution_table') == True:
+            result['max_items'] = self.getSboxesStatsForCriteria(analyzed_sboxes, 'max_item')
+        
         return result
 
     def getSboxesStatsForCriteria(self, analyzed_sboxes, criteriaName):

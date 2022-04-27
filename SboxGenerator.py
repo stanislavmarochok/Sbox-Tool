@@ -16,9 +16,9 @@ class SboxResult:
     def __init__(self, sbox):
         self.sbox = sbox
         self.meta_data = {}
-        self.error = None
+        self.error = False
 
-        if not isinstance(self.sbox, list):
+        if self.sbox is -1 or self.sbox is False:
             self.error = True
 
     def addMetaData(self, _meta_data_item, _value):
@@ -35,7 +35,7 @@ class SboxGenerator:
         generated_sboxes_result = []
         for index_of_sbox in range(number_of_sboxes):
             generated_sbox_result = self.generateSbox(2 ** size_of_sboxes, generation_method)
-            if generated_sbox_result.error != True:
+            if generated_sbox_result.error == False:
                 generated_sboxes_result.append(generated_sbox_result)
 
         return generated_sboxes_result

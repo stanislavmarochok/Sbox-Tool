@@ -25,6 +25,11 @@ class RuntimeGlobalSettings:
             self.disabled_output_console = False
             self.disabled_output_files = False
 
+            self.analyzeCriteria = {}
+            self.analyzeCriteria['difference_distribution_table'] = False
+            self.analyzeCriteria['bijection'] = False
+            self.analyzeCriteria['nonlinearity'] = False
+
             self.prescribed_ddt_max_item = None
 
             RuntimeGlobalSettings._instance = self
