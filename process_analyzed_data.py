@@ -4,7 +4,9 @@ import pandas as pd
 import numpy as np
 import os
 
-def run_processing_data():
+from ExportHelper import ExportHelper
+
+def process_data():
     csv_folder = './output/sboxes_datasets'
     csv_filenames = os.listdir(csv_folder)
 
@@ -20,11 +22,14 @@ def run_processing_data():
     result_df['sboxes_count'] = result_df['sboxes_count'].astype(int)
     result_df['sboxes_size'] = result_df['sboxes_size'].astype(int)
     
-    print(result_df)
-    for max_item in [4, 6, 8, 10]:
-        result_df[f'sboxes_count_with_max_item_{max_item}'] = result_df[f'sboxes_count_with_max_item_{max_item}'].fillna(0).astype(int)
+    columns = [column_name for column_name in result_df.columns if 'sboxes_count_with' in column_name]
+    for column_name in columns:
+        result_df[column_name] = result_df[column_name].fillna(0).astype(int)
 
-    print(result_df.head())
+    print(result_df)
+
+    exportHelper = ExportHelper()
+    exportHelper.exportDataframeToCsvToFolder(result_df, 'output', 'sboxes_datasets_processed', 'statistics.csv')
 
 
 def process_file(csv_filename, csv_folder):
@@ -44,14 +49,17 @@ def process_file(csv_filename, csv_folder):
 
     max_items_column = df['max_item']
     max_items = get_sboxes_count_with_max_item(max_items_column)
-    print(max_items)
     for max_item in max_items.keys():
         result[f'sboxes_count_with_max_item_{max_item}'] = max_items.get(f'{max_item}')
 
         # TODO: get 2 columns - max_item and max_item_count
         max_items_count_for_max_item = get_sboxes_count_with_max_item_count_for_max_item(max_item, max_items_column, df['max_item_count'])
         for max_item_count in max_items_count_for_max_item.keys():
-            result[f'sboxes_count_with_max_item_count_{max_item_count}'] = max_items_count_for_max_item.get(f'{max_item_count}')
+            result[f'sboxes_count_with_max_item_{max_item}_max_item_count_{max_item_count}'] = max_items_count_for_max_item.get(f'{max_item_count}')
+
+        zero_items_count_for_max_item = get_sboxes_count_with_zero_items_count_for_max_item(max_item, max_items_column, df['zero_items_count'])
+        for zero_items_count in zero_items_count_for_max_item.keys():
+            result[f'sboxes_count_with_max_item_{max_item}_zero_items_count_{zero_items_count}'] = zero_items_count_for_max_item.get(f'{zero_items_count}')
 
     return result
 
@@ -63,6 +71,18 @@ def get_sboxes_count_with_max_item(max_items):
             max_item_result[str(item)] = 0
         max_item_result[str(item)] += 1
     return max_item_result
+
+
+def get_sboxes_count_with_zero_items_count_for_max_item(max_item, max_item_column, zero_items_count_column):
+    zero_items_count_result = {}
+    for zero_items_count_index in range(len(zero_items_count_column)):
+        zero_items_count = zero_items_count_column[zero_items_count_index]
+        if zero_items_count_result.get(str(zero_items_count)) is None:
+            zero_items_count_result[f'{zero_items_count}'] = 0
+        
+        if int(max_item_column[zero_items_count_index]) == int(max_item):
+            zero_items_count_result[f'{zero_items_count}'] += 1
+    return zero_items_count_result
 
 
 def get_sboxes_count_with_max_item_count_for_max_item(max_item, max_item_column, max_items_count_column):
@@ -98,5 +118,5 @@ def get_sboxes_size(csv_filename):
     sboxes_size_str = sboxes_size_part[1:]
     return int(sboxes_size_str)
 
-run_processing_data()
+process_data()
 

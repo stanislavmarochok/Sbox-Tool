@@ -17,7 +17,18 @@ class ExportHelper:
         return True
 
 
-    def exportAnalyzedSboxes(self, obj, filename = None):
+    def exportDataframeToCsvToFolder(self, df, output_folder, output_subfolder, filename):
+        if not os.path.exists(f'{output_folder}'):
+            os.mkdir(f'{output_folder}')
+
+        if not os.path.exists(f'{output_folder}/{output_subfolder}'):
+            os.mkdir(f'{output_folder}/{output_subfolder}')
+        
+        full_filename = f'{output_folder}/{output_subfolder}/{filename}'
+        df.to_csv(full_filename)
+
+
+    def exportAnalyzedSboxes(self, obj, output_folder = None, output_subfolder = None, filename = None):
         if obj is None:
             print('There is nothing to export.')
             return False
@@ -27,8 +38,11 @@ class ExportHelper:
             return False
 
         settings = RuntimeGlobalSettings.getInstance()
-        output_folder = settings.output_folder
-        output_subfolder = 'sboxes_datasets'
+        if output_folder is None:
+            output_folder = settings.output_folder
+
+        if output_subfolder is None:
+            output_subfolder = 'sboxes_datasets'
 
         if not os.path.exists(f'{output_folder}'):
             os.mkdir(f'{output_folder}')
@@ -36,7 +50,9 @@ class ExportHelper:
         if not os.path.exists(f'{output_folder}/{output_subfolder}'):
             os.mkdir(f'{output_folder}/{output_subfolder}')
 
-        filename = self.getFilename()
+        if filename is None:
+            filename = self.getFilename()
+
         self.exportDataToCsv(obj, f'{output_folder}/{output_subfolder}/{filename}')
 
 
