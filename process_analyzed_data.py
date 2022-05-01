@@ -4,28 +4,63 @@ import pandas as pd
 import numpy as np
 import os
 
+from natsort import natsorted
+
 from ExportHelper import ExportHelper
 
 def process_data():
     csv_folder = './output/sboxes_datasets'
     csv_filenames = os.listdir(csv_folder)
 
-    pd.set_option('display.max_columns', 10)
+    pd.set_option('display.max_columns', None)
+    pd.set_option('display.max_rows', None)
 
     result_df = pd.DataFrame()
     for csv_filename in csv_filenames:
         new_row = process_file(csv_filename, csv_folder)
         result_df = result_df.append(new_row, ignore_index=True)
 
-    result_df['sboxes_count'] = result_df['sboxes_count'].astype(int)
-    result_df['sboxes_size'] = result_df['sboxes_size'].astype(int)
-
-    columns = [column_name for column_name in result_df.columns if 'sboxes_count_with' in column_name]
-    for column_name in columns:
-        result_df[column_name] = result_df[column_name].fillna(0).astype(int)
+    result_df = convert_dataframe_columns_to_int(result_df)
+    result_df = get_dataframe_with_reordered_columns(result_df)
 
     exportHelper = ExportHelper()
     exportHelper.exportDataframeToCsvToFolder(result_df, 'output', 'sboxes_datasets_processed', 'statistics.csv')
+
+
+def convert_dataframe_columns_to_int(df):
+    df['sboxes_count'] = df['sboxes_count'].astype(int)
+    df['sboxes_size'] = df['sboxes_size'].astype(int)
+
+    columns = [column_name for column_name in df.columns if 'sboxes_count_with' in column_name]
+    for column_name in columns:
+        df[column_name] = df[column_name].fillna(0).astype(int)
+
+    return df
+
+
+def get_dataframe_with_reordered_columns(df):
+    cols = np.array(df.columns)
+    cols_to_insert_to_the_beginning = [colname for colname in cols if 'sboxes_count_with' not in colname]
+    sorted_cols = []
+
+    max_item_columns = []
+    for i in range(20):
+        colname = f'sboxes_count_with_max_item_{i}'
+        if colname in cols:
+            max_item_columns.append(colname)
+
+    max_item_count_columns = natsorted([colname for colname in cols if 'max_item_count' in colname])
+    zero_items_count_columns = natsorted([colname for colname in cols if 'zero_items_count' in colname])
+
+    sorted_cols.extend(max_item_columns)
+    sorted_cols.extend(max_item_count_columns)
+    sorted_cols.extend(zero_items_count_columns)
+
+    result_cols = []
+    result_cols.extend(cols_to_insert_to_the_beginning)
+    result_cols.extend(sorted_cols)
+
+    return df[result_cols]
 
 
 def process_file(csv_filename, csv_folder):
@@ -54,7 +89,7 @@ def process_file(csv_filename, csv_folder):
 
     zero_items_count = get_sboxes_count_with_zero_items_count(max_item, df['zero_items_count'])
     for zero_items_value in zero_items_count.keys():
-        result[f'sboxes_count_with_zero_items_value_{zero_items_value}'] = zero_items_count.get(f'{zero_items_value}')
+        result[f'sboxes_count_with_zero_items_count_{zero_items_value}'] = zero_items_count.get(f'{zero_items_value}')
 
     return result
 
