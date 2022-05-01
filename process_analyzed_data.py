@@ -24,8 +24,6 @@ def process_data():
     for column_name in columns:
         result_df[column_name] = result_df[column_name].fillna(0).astype(int)
 
-    print(result_df)
-
     exportHelper = ExportHelper()
     exportHelper.exportDataframeToCsvToFolder(result_df, 'output', 'sboxes_datasets_processed', 'statistics.csv')
 
@@ -49,6 +47,7 @@ def process_file(csv_filename, csv_folder):
     for max_item in max_items.keys():
         result[f'sboxes_count_with_max_item_{max_item}'] = max_items.get(f'{max_item}')
 
+    for max_item in max_items.keys():
         max_items_count_for_max_item = get_sboxes_count_with_max_item_count_for_max_item(max_item, max_items_column, df['max_item_count'])
         for max_item_count in max_items_count_for_max_item.keys():
             result[f'sboxes_count_with_max_item_{max_item}_max_item_count_{max_item_count}'] = max_items_count_for_max_item.get(f'{max_item_count}')
