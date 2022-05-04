@@ -36,6 +36,9 @@ def convert_dataframe_columns_to_int(df):
     for column_name in columns:
         df[column_name] = df[column_name].fillna(0).astype(int)
 
+    df['average_time'] = df['average_time'].astype(float)
+    df['all_time'] = df['all_time'].astype(float)
+
     return df
 
 

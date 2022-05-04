@@ -1,0 +1,22 @@
+[INFO] [04/05/2022 07:43:49] ...Parsing options...
+[INFO] [04/05/2022 07:43:49] SBox source: generation
+[INFO] [04/05/2022 07:43:49] Generation method: 
+[INFO] [04/05/2022 07:43:49] Random generation
+[INFO] [04/05/2022 07:43:49] Number of SBoxes to generate: 20
+[INFO] [04/05/2022 07:43:49] Size of SBoxes (power of 2): 3
+[INFO] [04/05/2022 07:43:49] Disabled output console: True
+[INFO] [04/05/2022 07:43:49] Disabled output files: False
+[INFO] [04/05/2022 07:43:49] Output folder: output
+[INFO] [04/05/2022 07:43:49] ...End of parsing options...
+[INFO] [04/05/2022 07:43:49] 
+[INFO] [04/05/2022 07:44:18] ...Parsing options...
+[INFO] [04/05/2022 07:44:18] SBox source: generation
+[INFO] [04/05/2022 07:44:18] Generation method: 
+[INFO] [04/05/2022 07:44:18] Randomized algorithm to construct S-boxes with prescribed difference distribution table
+[INFO] [04/05/2022 07:44:18] Number of SBoxes to generate: 20
+[INFO] [04/05/2022 07:44:18] Size of SBoxes (power of 2): 3
+[INFO] [04/05/2022 07:44:18] Disabled output console: True
+[INFO] [04/05/2022 07:44:18] Disabled output files: False
+[INFO] [04/05/2022 07:44:18] Output folder: output
+[INFO] [04/05/2022 07:44:18] ...End of parsing options...
+[INFO] [04/05/2022 07:44:18] 
