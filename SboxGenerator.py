@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 import enum
 import numpy as np
@@ -18,8 +18,11 @@ class SboxResult:
         self.meta_data = {}
         self.error = False
 
-        if self.sbox is -1 or self.sbox is False:
-            self.error = True
+        try:
+            if self.sbox == -1 or self.sbox == False:
+                self.error = True
+        except:
+            pass
 
     def addMetaData(self, _meta_data_item, _value):
         if self.meta_data is None:
@@ -51,7 +54,7 @@ class SboxGenerator:
         elif generation_method == SboxGeneratorMethods.MathematicalConstruction:
             method = self.mathematical_generation
         elif generation_method == SboxGeneratorMethods.PrescribedDDT:
-            method = self.ddt_generation
+            method = self.prescribed_ddt
 
         if method is None:
             logger.logInfo('Error: Generation method not recognized!')
@@ -78,7 +81,7 @@ class SboxGenerator:
         # TODO: finish the method
         return self.random_generation(size_of_sbox)
 
-    def ddt_generation(self, size_of_sbox):
+    def prescribed_ddt(self, size_of_sbox):
         # TODO: finish the method
         from PartiallySmoothDifferenceTable import PartiallySmoothDifferenceTable as gen
         generator = gen()

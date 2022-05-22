@@ -24,7 +24,7 @@ class PartiallySmoothDifferenceTable:
         if new_sbox == -1:
             self.logger.logError('Timeout exception thrown during SBox generation.')
             return -1
-        
+
         self.logger.logInfo(new_sbox)
         return new_sbox
 

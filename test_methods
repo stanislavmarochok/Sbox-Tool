@@ -2,9 +2,9 @@
 
 for prescribed_ddt_max_item in 10 8 6 4
 do
-	for sboxes_size in 3 4 5 6
+	for sboxes_size in 3 4 5
 	do
-		./sbox_tool.py --prescribed-ddt --sboxes-count 10 --sboxes-size $sboxes_size --prescribed-ddt-max-item $prescribed_ddt_max_item --analyze-ddt --dC --generation-timeout 3600
+		./sbox_tool.py --prescribed-ddt --sboxes-count 100 --sboxes-size $sboxes_size --prescribed-ddt-max-item $prescribed_ddt_max_item --analyze-ddt --dC --generation-timeout 3600
 		./sbox_tool.py --random-generation --sboxes-count 100 --sboxes-size $sboxes_size --prescribed-ddt-max-item $prescribed_ddt_max_item --analyze-ddt --dC
 	done
 done
