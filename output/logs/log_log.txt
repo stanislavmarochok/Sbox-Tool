@@ -1,3 +1,0 @@
-[INFO] [22/05/2022 10:52:38] ...Parsing options...
-[INFO] [22/05/2022 10:52:38] SBox source: generation
-[INFO] [22/05/2022 10:52:38] Generation method: 
