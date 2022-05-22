@@ -1,4 +1,0 @@
-[INFO] [22/05/2022 02:26:09] 
-[INFO] [22/05/2022 02:26:09] Analyzing criteria:
-[INFO] [22/05/2022 02:26:09] 0. Difference Distribution Table Analyzer
-[INFO] [22/05/2022 02:26:09] 

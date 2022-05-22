@@ -85,6 +85,9 @@ class OptionsParser:
         elif args.prescribed_ddt:
             method = SboxGeneratorMethods.PrescribedDDT
             logger.logInfo('Randomized algorithm to construct S-boxes with prescribed difference distribution table')
+        else:
+            method = SboxGeneratorMethods.RandomGeneration
+            logger.logInfo('Generation method was not specified, use Random Generation')
 
         global_settings.generation_method = method
         global_settings.generation_timeout = args.generation_timeout
