@@ -1,0 +1,11 @@
+[INFO] [22/05/2022 02:25:19] ...Parsing options...
+[INFO] [22/05/2022 02:25:19] SBox source: generation
+[INFO] [22/05/2022 02:25:19] Generation method: 
+[INFO] [22/05/2022 02:25:19] Random generation
+[INFO] [22/05/2022 02:25:19] Number of SBoxes to generate: 20
+[INFO] [22/05/2022 02:25:19] Size of SBoxes (power of 2): 4
+[INFO] [22/05/2022 02:25:19] Disabled output console: True
+[INFO] [22/05/2022 02:25:19] Disabled output files: False
+[INFO] [22/05/2022 02:25:19] Output folder: test_3
+[INFO] [22/05/2022 02:25:19] ...End of parsing options...
+[INFO] [22/05/2022 02:25:19] 

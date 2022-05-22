@@ -210,8 +210,8 @@ class SboxAnalyzer:
             _dict[name] = []
         _dict[name].append(item)
 
-    def analyzeCriterion(self, sageSbox, criterion : ICriterionAnalyzer):
-        return criterion.analyze(sageSbox)
+    def analyzeCriterion(self, sbox, criterion : ICriterionAnalyzer):
+        return criterion.analyze(sbox)
 
     def getSboxString(self, sbox):
         sboxStr = []
@@ -221,10 +221,10 @@ class SboxAnalyzer:
 
     def analyzeStatsOfSboxes(self, analyzed_sboxes):
         result = {}
-    
+
         if self.settings.analyzeCriteria.get('difference_distribution_table') == True:
             result['max_items'] = self.getSboxesStatsForCriteria(analyzed_sboxes, 'max_item')
-        
+
         return result
 
     def getSboxesStatsForCriteria(self, analyzed_sboxes, criteriaName):

@@ -1,0 +1,11 @@
+[INFO] [02/05/2022 04:44:13] ...Parsing options...
+[INFO] [02/05/2022 04:44:13] SBox source: generation
+[INFO] [02/05/2022 04:44:13] Generation method: 
+[INFO] [02/05/2022 04:44:13] Randomized algorithm to construct S-boxes with prescribed difference distribution table
+[INFO] [02/05/2022 04:44:13] Number of SBoxes to generate: 1
+[INFO] [02/05/2022 04:44:13] Size of SBoxes (power of 2): 4
+[INFO] [02/05/2022 04:44:13] Disabled output console: True
+[INFO] [02/05/2022 04:44:13] Disabled output files: False
+[INFO] [02/05/2022 04:44:13] Output folder: test_output
+[INFO] [02/05/2022 04:44:13] ...End of parsing options...
+[INFO] [02/05/2022 04:44:13] 

@@ -8,11 +8,6 @@ from SboxAnalyzer import AnalyzeCriteria
 from Logger import Logger
 from RuntimeGlobalSettings import RuntimeGlobalSettings
 
-class CommonOptions:
-    def __init__(self):
-        self.disabled_output_console = False
-        self.disabled_output_files = False
-
 class GenerationOptions:
     def __init__(self):
         self.number_of_sboxes = 1
@@ -21,14 +16,10 @@ class GenerationOptions:
         self.generation_method = SboxGeneratorMethods.RandomGeneration
         self.generate_new_sboxes = True
 
-class ExportOptions:
-    def __init__(self):
-        self.export_csv = True
-
 class OptionsParser:
     def __init__(self):
         self.version = 0.1
-        self.verbose = False
+
         self.logger = Logger(log_files=['options_parser', 'log'])
 
         # sbox options
@@ -36,12 +27,6 @@ class OptionsParser:
 
         # properties to analyze
         self.analyze_options = AnalyzeCriteria()
-
-        # export results options
-        self.export_options = ExportOptions()
-
-        # common options
-        self.common_options = CommonOptions()
 
     """
     Parse the arguments from the input
@@ -100,10 +85,10 @@ class OptionsParser:
         elif args.prescribed_ddt:
             method = SboxGeneratorMethods.PrescribedDDT
             logger.logInfo('Randomized algorithm to construct S-boxes with prescribed difference distribution table')
-        
+
         global_settings.generation_method = method
         global_settings.generation_timeout = args.generation_timeout
-        
+
         if method == None:
             error_msg = 'Select a method for S-Boxes generation or provide some SBox for analyzing.'
             logger.logError(error_msg)
