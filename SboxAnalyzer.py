@@ -1,12 +1,8 @@
 #!/usr/bin/python
 
-import enum
-import pandas as pd
-
 from Logger import Logger
-from SboxGenerator import SboxResult
 from RuntimeGlobalSettings import RuntimeGlobalSettings
-
+from SboxGenerator import SboxResult
 
 # interface with methods
 """
@@ -76,7 +72,7 @@ class DifferenceDistributionTableAnalyzer(ICriterionAnalyzer):
         result['zero_items_count'] = zero_items_count
 
         return result
-    
+
     def difference_distribution_table(self, sbox):
         sbox_length = len(sbox)
         ddt = [[0] * sbox_length for _ in range(sbox_length)]
@@ -147,7 +143,7 @@ class NonlinearityAnalyzer(ICriterionAnalyzer):
 
 class AnalyzeCriteria:
     def __init__(self):
-        self.settings = RuntimeGlobalSettings.getInstance() 
+        self.settings = RuntimeGlobalSettings.getInstance()
         self.analyzeCriteria = []
 
 

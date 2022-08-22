@@ -6,11 +6,13 @@ import time
 
 from Logger import Logger
 
+
 class SboxGeneratorMethods(enum.Enum):
     RandomGeneration = 1,
     EvolutionaryGeneration = 2,
     MathematicalConstruction = 3.
     PrescribedDDT = 4
+
 
 class SboxResult:
     def __init__(self, sbox):
@@ -30,11 +32,13 @@ class SboxResult:
 
         self.meta_data[_meta_data_item] = _value
 
+
 class SboxGenerator:
     def __init__(self):
-        self.logger = Logger(log_files=['sbox_generator', 'log'], disabled_output_console=False, disabled_output_files=False)
+        self.logger = Logger(log_files=['sbox_generator', 'log'], disabled_output_console=False,
+                             disabled_output_files=False)
 
-    def generateSboxes(self, number_of_sboxes, size_of_sboxes, generation_method : SboxGeneratorMethods):
+    def generateSboxes(self, number_of_sboxes, size_of_sboxes, generation_method: SboxGeneratorMethods):
         generated_sboxes_result = []
         for index_of_sbox in range(number_of_sboxes):
             generated_sbox_result = self.generateSbox(2 ** size_of_sboxes, generation_method)

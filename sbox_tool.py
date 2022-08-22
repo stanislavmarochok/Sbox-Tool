@@ -1,17 +1,10 @@
 #!/usr/bin/python3
 
-import sys
-import argparse
-import numpy as np
-import pandas as pd
-
 # own libraries
 from ExportHelper import ExportHelper
-from SboxAnalyzer import SboxAnalyzer
 from OptionsParser import OptionsParser
+from SboxAnalyzer import SboxAnalyzer
 from SboxGenerator import SboxGenerator
-from SboxGenerator import SboxResult
-from Logger import Logger
 
 
 class SBoxTool:
@@ -38,7 +31,6 @@ class SBoxTool:
         sboxes_stats = self.sbox_analyzer.analyzeStatsOfSboxes(analyzed_sboxes)
 
         # TODO: add columns with analyze criteria 
-
         self.export_helper = ExportHelper()
         export_result = self.export_helper.exportAnalyzedSboxes(analyzed_sboxes)
         export_stats = self.export_helper.exportSboxesStats(sboxes_stats)

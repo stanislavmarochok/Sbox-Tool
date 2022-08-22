@@ -4,6 +4,7 @@ import os
 
 from RuntimeGlobalSettings import RuntimeGlobalSettings as settings
 
+
 class Logger():
     def __init__(self, log_files=[], disabled_output_console=None, disabled_output_files=None):
         self.settings = settings.getInstance()

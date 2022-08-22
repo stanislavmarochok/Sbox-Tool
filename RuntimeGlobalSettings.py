@@ -5,14 +5,14 @@ class RuntimeGlobalSettings:
 
     @staticmethod
     def getInstance():
-        if RuntimeGlobalSettings._instance == None:
+        if RuntimeGlobalSettings._instance is None:
             RuntimeGlobalSettings()
         return RuntimeGlobalSettings._instance
 
     def __init__(self):
         from SboxGenerator import SboxGeneratorMethods
 
-        if RuntimeGlobalSettings._instance != None:
+        if RuntimeGlobalSettings._instance is not None:
             raise Exception('RuntimeGlobalSettings is a singleton!')
         else:
             self.number_of_sboxes = None

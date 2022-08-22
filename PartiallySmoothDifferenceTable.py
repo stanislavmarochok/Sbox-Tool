@@ -7,6 +7,7 @@ from SboxAnalyzer import DifferenceDistributionTableAnalyzer
 from Logger import Logger
 from RuntimeGlobalSettings import RuntimeGlobalSettings
 
+
 class PartiallySmoothDifferenceTable:
     def __init__(self):
         # log - name of file with logs
@@ -34,7 +35,8 @@ class PartiallySmoothDifferenceTable:
             self.generation_started = True
             self.generation_start_time = time.time()
 
-        if self.global_settings.generation_timeout is not None and self.generation_started is True and (time.time() - self.generation_start_time) > self.global_settings.generation_timeout:
+        if self.global_settings.generation_timeout is not None and self.generation_started is True and (
+                time.time() - self.generation_start_time) > self.global_settings.generation_timeout:
             # -1 = timeout exception
             return -1
 
@@ -66,7 +68,7 @@ class PartiallySmoothDifferenceTable:
         # go through all available numbers
         for i in available_numbers:
             new_partial_sbox = [i for i in partial_sbox]
-            new_partial_sbox.append(i) # adding a new item to SBox
+            new_partial_sbox.append(i)  # adding a new item to SBox
 
             logger.logInfo('New partial SBox')
             logger.logInfo(new_partial_sbox)

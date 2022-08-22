@@ -8,6 +8,7 @@ from natsort import natsorted
 
 from ExportHelper import ExportHelper
 
+
 def process_data():
     csv_folder = './output/sboxes_datasets'
     csv_filenames = os.listdir(csv_folder)
@@ -87,9 +88,12 @@ def process_file(csv_filename, csv_folder):
         result[f'sboxes_count_with_max_item_{max_item}'] = max_items.get(f'{max_item}')
 
     for max_item in max_items.keys():
-        max_items_count_for_max_item = get_sboxes_count_with_max_item_count_for_max_item(max_item, max_items_column, df['max_item_count'])
+        max_items_count_for_max_item = get_sboxes_count_with_max_item_count_for_max_item(max_item, max_items_column,
+                                                                                         df['max_item_count'])
         for max_item_count in max_items_count_for_max_item.keys():
-            result[f'sboxes_count_with_max_item_{max_item}_max_item_count_{max_item_count}'] = max_items_count_for_max_item.get(f'{max_item_count}')
+            result[
+                f'sboxes_count_with_max_item_{max_item}_max_item_count_{max_item_count}'] = max_items_count_for_max_item.get(
+                f'{max_item_count}')
 
     zero_items_count = get_sboxes_count_with_zero_items_count(max_item, df['zero_items_count'])
     for zero_items_value in zero_items_count.keys():
@@ -151,5 +155,5 @@ def get_sboxes_size(csv_filename):
     sboxes_size_str = sboxes_size_part[1:]
     return int(sboxes_size_str)
 
-process_data()
 
+process_data()
