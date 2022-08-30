@@ -2,6 +2,7 @@
 
 import random as random_for_shuffle_numbers
 import time
+import math
 
 from SboxAnalyzer import DifferenceDistributionTableAnalyzer
 from Logger import Logger
@@ -19,7 +20,7 @@ class PartiallySmoothDifferenceTable:
         partial_sbox = []
 
         new_sbox = self.addItemToSbox(partial_sbox, full_size_of_sbox)
-        if new_sbox == False:
+        if not new_sbox:
             self.logger.logError('Some error occured, see logs.')
             return False
         if new_sbox == -1:
@@ -58,7 +59,18 @@ class PartiallySmoothDifferenceTable:
             if isinstance(x, int):
                 all_numbers[x] = 0
 
-        available_numbers = [i for i in range(len(all_numbers)) if all_numbers[i] == 1]
+        index = len(partial_sbox)
+        try:
+            is_power = math.log2(index).is_integer()
+        except Exception:
+            is_power = False
+
+        if index == 0 or index == 1:
+            available_numbers = [index]
+        elif is_power:
+            available_numbers = [index]
+        else:
+            available_numbers = [i for i in range(len(all_numbers)) if all_numbers[i] == 1]
 
         logger.logInfo('Available numbers:')
         logger.logInfo(available_numbers)
@@ -67,7 +79,7 @@ class PartiallySmoothDifferenceTable:
 
         # go through all available numbers
         for i in available_numbers:
-            new_partial_sbox = [i for i in partial_sbox]
+            new_partial_sbox = [a for a in partial_sbox]
             new_partial_sbox.append(i)  # adding a new item to SBox
 
             logger.logInfo('New partial SBox')

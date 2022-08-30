@@ -20,6 +20,7 @@ class GenerationOptions:
 
 class OptionsParser:
     def __init__(self):
+        self.parser = None
         self.version = 0.1
 
         self.logger = Logger(log_files=['options_parser', 'log'])
@@ -76,6 +77,8 @@ class OptionsParser:
         parser.add_argument('--version', action='version', help='Version of Sbox Tool.',
                             version='%(prog)s ' + str(self.version))
 
+        self.parser = parser
+
         return parser
 
     def parse_args(self, args):
@@ -107,10 +110,13 @@ class OptionsParser:
         if method is None:
             error_msg = 'Select a method for S-Boxes generation or provide some SBox for analyzing.'
             logger.logError(error_msg)
-            parser.error(error_msg)
+            self.parser.error(error_msg)
 
         global_settings.generation_method = method
         global_settings.generation_timeout = args.generation_timeout
+
+        n = None
+        s = None
 
         if args.n:
             n = int(args.n)
