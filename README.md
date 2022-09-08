@@ -79,3 +79,5 @@ Disable printing logs to files. Enabled by default.
 Specify the folder where outputs will be saved.
 
 to be continued...
+
+while I am writing the documentation - try to play with the program for a while.
