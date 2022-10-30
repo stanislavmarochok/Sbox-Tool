@@ -75,7 +75,9 @@ class SboxGenerator:
         return sbox_generator_result
 
     def random_generation(self, size_of_sbox):
-        return np.random.RandomState().permutation(size_of_sbox)
+        new_sbox = np.random.RandomState().permutation(size_of_sbox)
+        self.logger.logInfo(f"New S-box: {new_sbox}")
+        return new_sbox
 
     def evolutionary_generation(self, size_of_sbox):
         # TODO: finish the method

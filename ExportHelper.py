@@ -71,6 +71,6 @@ class ExportHelper:
     def getFilename(self):
         settings = RuntimeGlobalSettings.getInstance()
         if settings.generation_method.name == 'PrescribedDDT':
-            return f'{settings.generation_method.name}_n{settings.number_of_sboxes}_s{settings.power_size_of_sbox}_prescribedDdMaxItem{settings.prescribed_ddt_max_item}'
+            return f'{settings.generation_method.name}_n{settings.number_of_sboxes}_s{settings.power_size_of_sbox}_prescribedDDTMaxItem{settings.prescribed_ddt_max_item}'
         else:
             return f'{settings.generation_method.name}_n{settings.number_of_sboxes}_s{settings.power_size_of_sbox}'

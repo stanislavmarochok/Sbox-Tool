@@ -12,6 +12,7 @@ from ExportHelper import ExportHelper
 def process_data():
     csv_folder = './output/sboxes_datasets'
     csv_filenames = os.listdir(csv_folder)
+    csv_filenames = [filename for filename in csv_filenames if filename.endswith("csv")]
     csv_filenames = natsorted(csv_filenames)
 
     pd.set_option('display.max_columns', None)

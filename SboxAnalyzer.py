@@ -8,6 +8,8 @@ from SboxGenerator import SboxResult
 """
 An interface with contains common methods for analyzers
 """
+
+
 class ICriterionAnalyzer:
     def analyze(self, sbox):
         print(f'Analyzing SBox: {sbox}')
@@ -20,6 +22,8 @@ Analyze S-Box for the following properties:
     - number of maximal items in the table
     - number of zero items in the table
 """
+
+
 class DifferenceDistributionTableAnalyzer(ICriterionAnalyzer):
     def __init__(self):
         self.name = 'Difference Distribution Table Analyzer'
@@ -42,7 +46,7 @@ class DifferenceDistributionTableAnalyzer(ICriterionAnalyzer):
         result = self.getStatsFromDdtItems(ddt_items)
         return result
 
-    def countItemsInDdt(self, ddt, full_size_of_sbox, start_from_row_column = 1):
+    def countItemsInDdt(self, ddt, full_size_of_sbox, start_from_row_column=1):
         # create an array to store number of each item in the DDT
         items = [0] * (full_size_of_sbox + 1)
         for row_index in range(start_from_row_column, full_size_of_sbox):
@@ -85,7 +89,6 @@ class DifferenceDistributionTableAnalyzer(ICriterionAnalyzer):
 
         return ddt
 
-
     def printDdt(self, ddt):
         logger = self.logger
         logger.logInfo('Difference distribution table:')
@@ -100,6 +103,8 @@ class DifferenceDistributionTableAnalyzer(ICriterionAnalyzer):
 Analyze S-Box for the property of bijection.
 An n x n SBox is bijective if it has all different output values from interval [0, 2**n - 1].
 """
+
+
 class BijectionAnalyzer(ICriterionAnalyzer):
     def __init__(self):
         self.name = 'Bijection Analyzer'
@@ -124,6 +129,8 @@ class BijectionAnalyzer(ICriterionAnalyzer):
 """
 Analyze S-Box for the property of nonlinearity.
 """
+
+
 class NonlinearityAnalyzer(ICriterionAnalyzer):
     def __init__(self):
         self.name = 'Nonlinearity Analyzer'
@@ -146,7 +153,6 @@ class AnalyzeCriteria:
         self.settings = RuntimeGlobalSettings.getInstance()
         self.analyzeCriteria = []
 
-
     def addAnalyzeCriterion(self, criterionName):
         if criterionName == 'difference_distribution_table':
             self.analyzeCriteria.append(DifferenceDistributionTableAnalyzer())
@@ -154,7 +160,6 @@ class AnalyzeCriteria:
             self.analyzeCriteria.append(BijectionAnalyzer())
         elif criterionName == 'nonlinearity':
             self.analyzeCriteria.append(NonlinearityAnalyzer())
-
 
     def printCriteria(self):
         logger = Logger(log_files=['sbox_analyzer', 'log'])
@@ -170,7 +175,7 @@ class SboxAnalyzer:
         self.settings = RuntimeGlobalSettings.getInstance()
         self.logger = Logger(log_files=['sbox_analyzer', 'log'])
 
-    def analyzeSboxesWithCriteria(self, sboxes : SboxResult, criteria : AnalyzeCriteria):
+    def analyzeSboxesWithCriteria(self, sboxes, criteria: AnalyzeCriteria):
         analyzeResult = {}
 
         criteria.printCriteria()
@@ -206,7 +211,7 @@ class SboxAnalyzer:
             _dict[name] = []
         _dict[name].append(item)
 
-    def analyzeCriterion(self, sbox, criterion : ICriterionAnalyzer):
+    def analyzeCriterion(self, sbox, criterion: ICriterionAnalyzer):
         return criterion.analyze(sbox)
 
     def getSboxString(self, sbox):
