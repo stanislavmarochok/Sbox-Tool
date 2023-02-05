@@ -64,7 +64,7 @@ class OptionsParser:
         sbox_analyzing_group.add_argument('--b', action='store_true', default=False,
                                           dest='analyze_bijection',
                                           help='Enable analyzing the bijection property of SBox (SBoxes)')
-        sbox_analyzing_group.add_argument('--n', action='store_true', default=False,
+        sbox_analyzing_group.add_argument('--nl', action='store_true', default=False,
                                           dest='analyze_nonlinearity',
                                           help='Enable analyzing the nonlinearity property of SBox (SBoxes)')
 

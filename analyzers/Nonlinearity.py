@@ -1,4 +1,3 @@
-
 from analyzers.ICriterionAnalyzer import ICriterionAnalyzer
 
 
@@ -6,6 +5,7 @@ class NonlinearityAnalyzer(ICriterionAnalyzer):
     """
     Analyze S-Box for the property of nonlinearity.
     """
+
     def __init__(self):
         self.name = 'Nonlinearity Analyzer'
 
