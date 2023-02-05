@@ -4,14 +4,13 @@ import random as random_for_shuffle_numbers
 import time
 import math
 
-from SboxAnalyzer import DifferenceDistributionTableAnalyzer
+from analyzers.DifferenceDistributionTable import DifferenceDistributionTableAnalyzer
 from Logger import Logger
 from RuntimeGlobalSettings import RuntimeGlobalSettings
 
 
 class PartiallySmoothDifferenceTable:
     def __init__(self):
-        # log - name of file with logs
         self.logger = Logger(log_files=['partially_smooth_difference_table', 'log'])
         self.global_settings = RuntimeGlobalSettings.getInstance()
         self.generation_started = False

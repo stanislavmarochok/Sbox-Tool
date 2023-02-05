@@ -48,20 +48,25 @@ class OptionsParser:
                                               help='Timeout for generation of 1 SBox')
 
         sbox_options_group = parser.add_argument_group('Options of SBoxes generation')
-        sbox_options_group.add_argument('--sboxes-count', type=int, action='store', dest='n', default=1,
+        sbox_options_group.add_argument('-n', type=int, action='store', dest='n', default=1,
                                         help='Number of SBoxes to be generated. Default n = 1.')
-        sbox_options_group.add_argument('--sboxes-size', type=int, action='store', dest='s', default=4,
+        sbox_options_group.add_argument('-s', type=int, action='store', dest='s', default=4,
                                         help='Size of SBox (power of 2). Default s = 4.')
 
         sbox_analyzing_group = parser.add_argument_group('S-box analyzing options.')
-        sbox_analyzing_group.add_argument('--prescribed-ddt-max-item', type=int, action='store',
+        sbox_analyzing_group.add_argument('-p', type=int, action='store',
                                           dest='prescribed_ddt_max_item', default=4,
-                                          help='Parameter of `satisfies_conditions` function in `Prescribed DDT` generation method, defines custom max_item in a difference distribution table of a partial SBox to satisfy conditions')
-        sbox_analyzing_group.add_argument('--analyze-ddt', action='store_true', default=False, dest='analyze_ddt',
+                                          help='Parameter of `satisfies_conditions` function in `Prescribed DDT` '
+                                               'generation method, defines custom max_item in a difference '
+                                               'distribution table of a partial SBox to satisfy conditions')
+        sbox_analyzing_group.add_argument('--ddt', action='store_true', default=False, dest='analyze_ddt',
                                           help='Enable analyzing the difference distribution table of SBox (SBoxes)')
-        sbox_analyzing_group.add_argument('--analyze-bijection', action='store_true', default=False,
+        sbox_analyzing_group.add_argument('--b', action='store_true', default=False,
                                           dest='analyze_bijection',
                                           help='Enable analyzing the bijection property of SBox (SBoxes)')
+        sbox_analyzing_group.add_argument('--n', action='store_true', default=False,
+                                          dest='analyze_nonlinearity',
+                                          help='Enable analyzing the nonlinearity property of SBox (SBoxes)')
 
         sbox_export_group = parser.add_argument_group('Options of export of the result')
         sbox_export_group.add_argument('--dEC', action='store_true', default=False,
@@ -142,6 +147,9 @@ class OptionsParser:
         if args.analyze_bijection:
             self.analyze_options.addAnalyzeCriterion('bijection')
             global_settings.analyzeCriteria['bijection'] = args.analyze_bijection
+        if args.analyze_nonlinearity:
+            self.analyze_options.addAnalyzeCriterion('nonlinearity')
+            global_settings.analyzeCriteria['nonlinearity'] = args.analyze_nonlinearity
 
         logger.logInfo(f'Number of SBoxes to generate: {n}')
         global_settings.number_of_sboxes = n

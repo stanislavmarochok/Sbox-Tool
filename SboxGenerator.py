@@ -54,7 +54,7 @@ class SboxGenerator:
         if generation_method == SboxGeneratorMethods.RandomGeneration:
             method = self.random_generation
         elif generation_method == SboxGeneratorMethods.EvolutionaryGeneration:
-            method = self.volutionary_generation
+            method = self.evolutionary_generation
         elif generation_method == SboxGeneratorMethods.MathematicalConstruction:
             method = self.mathematical_generation
         elif generation_method == SboxGeneratorMethods.PrescribedDDT:
