@@ -9,7 +9,7 @@ from Logger import Logger
 from RuntimeGlobalSettings import RuntimeGlobalSettings
 
 
-class PartiallySmoothDifferenceTable:
+class PrescribedDDT:
     def __init__(self):
         self.logger = Logger(log_files=['partially_smooth_difference_table', 'log'])
         self.global_settings = RuntimeGlobalSettings.getInstance()
@@ -59,17 +59,14 @@ class PartiallySmoothDifferenceTable:
                 all_numbers[x] = 0
 
         index = len(partial_sbox)
-        try:
-            is_power = math.log2(index).is_integer()
-        except Exception:
-            is_power = False
+        is_power = self.isPower(index)
 
         if index == 0 or index == 1:
             available_numbers = [index]
         elif is_power:
             available_numbers = [index]
         else:
-            available_numbers = [i for i in range(len(all_numbers)) if all_numbers[i] == 1]
+            available_numbers = [i for i in range(len(all_numbers)) if all_numbers[i] == 1 and not self.isPower(i)]
 
         logger.logInfo('Available numbers:')
         logger.logInfo(available_numbers)
@@ -165,3 +162,6 @@ class PartiallySmoothDifferenceTable:
             for item in row:
                 logger.logInfo('{: >3}'.format(item), end='')
             logger.logInfo()
+
+    def isPower(self, n):
+        return (n & (n - 1) == 0) and n != 0

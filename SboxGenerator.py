@@ -89,6 +89,6 @@ class SboxGenerator:
 
     def prescribed_ddt(self, size_of_sbox):
         # TODO: finish the method
-        from PartiallySmoothDifferenceTable import PartiallySmoothDifferenceTable as gen
+        from generators.PrescribedDDT import PrescribedDDT as gen
         generator = gen()
         return generator.generateSbox(size_of_sbox)
